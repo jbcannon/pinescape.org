@@ -56,6 +56,8 @@ document.querySelectorAll('.video-click-overlay').forEach(function (overlay) {
   if (!video || video.tagName !== 'VIDEO') return;
   var frame = overlay.closest('.video-frame');
 
+  video.volume = 0.5; // default to half volume; visitors can still adjust via the native controls
+
   overlay.addEventListener('click', function () {
     if (video.paused) {
       video.play();

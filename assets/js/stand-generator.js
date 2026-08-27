@@ -24,6 +24,18 @@
   var ACRES_PER_HA = 2.47105;
   var BA_FACTOR = 1 / 4.356; // m²/ha <-> ft²/acre, same convention as the other US/metric factors
 
+  // Area is a plain area quantity, not a per-hectare rate like Density/BA/
+  // Grass — so it converts the opposite direction from toUS()/toMetric()
+  // below (which are calibrated for those per-ha fields, where going
+  // metric->US *divides* by ACRES_PER_HA). 1 ha = ACRES_PER_HA acres, a
+  // straightforward multiply to go metric->US here.
+  function haToDisplayArea(areaHa, toUSUnits) {
+    return toUSUnits ? areaHa * ACRES_PER_HA : areaHa;
+  }
+  function displayAreaToHa(displayValue, toUSUnits) {
+    return toUSUnits ? displayValue / ACRES_PER_HA : displayValue;
+  }
+
   var unitsRadios = document.querySelectorAll('input[name="sg-units"]');
   function isUS() {
     var checked = document.querySelector('input[name="sg-units"]:checked');
@@ -74,6 +86,7 @@
 
   var widthInput = document.getElementById('sg-width');
   var heightInput = document.getElementById('sg-height');
+  var areaInput = document.getElementById('sg-area');
   var densityInput = document.getElementById('sg-density');
   var qmdInput = document.getElementById('sg-qmd');
   var sdInput = document.getElementById('sg-sd');
@@ -83,6 +96,7 @@
 
   var widthRange = document.getElementById('sg-width-range');
   var heightRange = document.getElementById('sg-height-range');
+  var areaRange = document.getElementById('sg-area-range');
   var densityRange = document.getElementById('sg-density-range');
   var qmdRange = document.getElementById('sg-qmd-range');
   var sdRange = document.getElementById('sg-sd-range');
@@ -98,6 +112,11 @@
     min: document.getElementById('sg-height-scale-min'),
     mid: document.getElementById('sg-height-scale-mid'),
     max: document.getElementById('sg-height-scale-max')
+  };
+  var areaScale = {
+    min: document.getElementById('sg-area-scale-min'),
+    mid: document.getElementById('sg-area-scale-mid'),
+    max: document.getElementById('sg-area-scale-max')
   };
   var densityScale = {
     min: document.getElementById('sg-density-scale-min'),
@@ -154,6 +173,7 @@
   }
   linkSlider(widthRange, widthInput);
   linkSlider(heightRange, heightInput);
+  linkSlider(areaRange, areaInput);
   linkSlider(densityRange, densityInput);
   linkSlider(qmdRange, qmdInput);
   linkSlider(sdRange, sdInput);
@@ -183,67 +203,96 @@
     rangeEl.value = Math.max(min, Math.min(max, v));
   }
 
-  // Chain-link toggle: while linked, Width and Height move together as a
-  // square (whichever you edit copies onto the other); click to break the
-  // link and size them independently. Re-linking snaps Height to match
-  // Width's current value.
-  var dimsLinkBtn = document.getElementById('sg-dims-link');
-  var dimsLinked = true;
-  var LINK_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="2" y="5" width="7" height="6" rx="3"/><rect x="7" y="5" width="7" height="6" rx="3"/></svg>';
-  var UNLINK_ICON = '<svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="1" y="5" width="6" height="6" rx="3"/><rect x="9" y="5" width="6" height="6" rx="3"/></svg>';
-  function updateDimsLinkButton() {
-    dimsLinkBtn.setAttribute('aria-pressed', dimsLinked ? 'true' : 'false');
-    dimsLinkBtn.title = dimsLinked
-      ? 'Width and height move together — click to size them independently'
-      : 'Width and height move independently — click to link as a square';
-    dimsLinkBtn.innerHTML = dimsLinked ? LINK_ICON : UNLINK_ICON;
+  // Stand Dimensions has two modes. By default the plot is a square sized
+  // by the Area slider: dragging Area recomputes Width/Height together
+  // (both greyed out, read-only, but live) as the side of that square.
+  // Clicking the mode button switches to Custom: Width/Height become
+  // editable independently and Area becomes the greyed, live-updating
+  // readout instead. Switching back to Area mode locks Area to the plot's
+  // current (possibly non-square) footprint, then immediately squares
+  // Width/Height back up from that value.
+  var dimsModeBtn = document.getElementById('sg-dims-mode-btn');
+  var dimsModeNoteEl = document.getElementById('sg-dims-mode-note');
+  var customDims = false;
+
+  function sideMFromAreaHa(areaHa) {
+    return Math.sqrt(areaHa * 10000);
   }
-  dimsLinkBtn.addEventListener('click', function () {
-    dimsLinked = !dimsLinked;
-    if (dimsLinked) {
-      heightInput.value = widthInput.value;
-      syncRangeToNumber(heightRange, heightInput);
-    }
-    updateDimsLinkButton();
-  });
-  updateDimsLinkButton();
-  [widthRange, widthInput].forEach(function (el) {
+
+  function setDimsInputsDisabled(disabled) {
+    [widthRange, widthInput, heightRange, heightInput].forEach(function (el) {
+      el.disabled = disabled;
+    });
+  }
+  function setAreaInputsDisabled(disabled) {
+    areaRange.disabled = disabled;
+    areaInput.disabled = disabled;
+  }
+
+  function updateDimsModeButton() {
+    dimsModeBtn.setAttribute('aria-pressed', customDims ? 'true' : 'false');
+    dimsModeBtn.textContent = customDims ? 'Use Square Area' : 'Customize Length & Width';
+    dimsModeBtn.title = customDims
+      ? 'Width and length are set independently — click to go back to a square sized by Area'
+      : 'Plot is a square sized by Area — click to set width and length independently';
+    dimsModeNoteEl.textContent = customDims
+      ? 'Width and length are set independently — Area above now reflects this footprint.'
+      : 'Plot is a square sized by Area above.';
+  }
+
+  // Area -> Width/Height (square mode).
+  function applyAreaToDims() {
+    var v = parseFloat(areaInput.value);
+    if (isNaN(v)) return;
+    var areaM = displayAreaToHa(v, isUS());
+    if (!(areaM > 0)) return;
+    var sideM = sideMFromAreaHa(areaM);
+    writeDisplayValue(widthInput, widthRange, sideM, M_PER_FT);
+    writeDisplayValue(heightInput, heightRange, sideM, M_PER_FT);
+  }
+
+  // Width/Height -> Area (custom mode), clamped to the slider's bounds.
+  function applyDimsToArea() {
+    var widthM = metricValueOf(widthInput, M_PER_FT);
+    var heightM = metricValueOf(heightInput, M_PER_FT);
+    if (!(widthM > 0) || !(heightM > 0)) return;
+    var areaHa = clamp((widthM * heightM) / 10000, METRIC_BOUNDS.area[0], METRIC_BOUNDS.area[1]);
+    areaInput.value = round2(haToDisplayArea(areaHa, isUS()));
+    syncRangeToNumber(areaRange, areaInput);
+  }
+
+  [areaRange, areaInput].forEach(function (el) {
     el.addEventListener('input', function () {
-      if (!dimsLinked) return;
-      heightInput.value = widthInput.value;
-      syncRangeToNumber(heightRange, heightInput);
+      if (customDims) return;
+      applyAreaToDims();
     });
   });
-  [heightRange, heightInput].forEach(function (el) {
+  [widthRange, widthInput, heightRange, heightInput].forEach(function (el) {
     el.addEventListener('input', function () {
-      if (!dimsLinked) return;
-      widthInput.value = heightInput.value;
-      syncRangeToNumber(widthRange, widthInput);
+      if (!customDims) return;
+      applyDimsToArea();
     });
   });
 
-  // Live plot-area readout next to "Stand Dimensions", recomputed from
-  // whatever's currently in the Width/Height fields (in whichever units
-  // are displayed).
-  var areaDisplayEl = document.getElementById('sg-area-display');
-  function updateAreaDisplay() {
-    var widthM = metricValueOf(widthInput, M_PER_FT);
-    var heightM = metricValueOf(heightInput, M_PER_FT);
-    if (!(widthM > 0) || !(heightM > 0)) {
-      areaDisplayEl.textContent = '';
-      return;
+  dimsModeBtn.addEventListener('click', function () {
+    customDims = !customDims;
+    if (customDims) {
+      setAreaInputsDisabled(true);
+      setDimsInputsDisabled(false);
+    } else {
+      setDimsInputsDisabled(true);
+      setAreaInputsDisabled(false);
+      applyDimsToArea(); // lock Area to the plot's current footprint...
+      applyAreaToDims();  // ...then square Width/Height back up from it
     }
-    var areaHa = (widthM * heightM) / 10000;
-    var us = isUS();
-    var areaDisplay = us ? areaHa * ACRES_PER_HA : areaHa;
-    areaDisplayEl.textContent = round1(areaDisplay) + ' ' + (us ? 'acres' : 'ha');
-  }
-  [widthRange, widthInput, heightRange, heightInput].forEach(function (el) {
-    el.addEventListener('input', updateAreaDisplay);
+    updateDimsModeButton();
   });
+  setDimsInputsDisabled(true);
+  updateDimsModeButton();
 
   var widthUnitEl = document.getElementById('sg-width-unit');
   var heightUnitEl = document.getElementById('sg-height-unit');
+  var areaUnitEl = document.getElementById('sg-area-unit');
   var densityUnitEl = document.getElementById('sg-density-unit');
   var qmdUnitEl = document.getElementById('sg-qmd-unit');
   var sdUnitEl = document.getElementById('sg-sd-unit');
@@ -264,7 +313,7 @@
   // never derived from whatever the slider currently has, so repeated
   // toggling back and forth can't drift the bounds.
   var METRIC_BOUNDS = {
-    width: [10, 304.8], height: [10, 304.8],
+    width: [10, 304.8], height: [10, 304.8], area: [0.01, 9.29],
     density: [10, 1980], qmd: [2.54, 100], sd: [1, 30], ba: [0.1, 57.4],
     grass: [0, 1200]
   };
@@ -280,6 +329,7 @@
   var STEP_BY_UNIT = {
     width:   { metric: 1,   us: 1 },
     height:  { metric: 1,   us: 1 },
+    area:    { metric: 0.01, us: 0.05 },
     density: { metric: 5,   us: 2 },
     qmd:     { metric: 0.5, us: 0.25 },
     sd:      { metric: 0.5, us: 0.25 },
@@ -301,6 +351,11 @@
     var us = isUS();
     convertFieldValue(widthInput, M_PER_FT, us);
     convertFieldValue(heightInput, M_PER_FT, us);
+    // Area converts opposite the per-ha fields below (see haToDisplayArea)
+    // and gets its own 2-decimal rounding rather than convertFieldValue's
+    // usual round1 — its metric range runs as low as 0.01 ha, which round1
+    // would collapse to a bare "0".
+    areaInput.value = round2(haToDisplayArea(displayAreaToHa(parseFloat(areaInput.value), !us), us));
     convertFieldValue(densityInput, ACRES_PER_HA, us);
     convertFieldValue(qmdInput, CM_PER_IN, us);
     convertFieldValue(sdInput, CM_PER_IN, us);
@@ -308,6 +363,8 @@
     convertFieldValue(grassInput, ACRES_PER_HA, us);
     setRangeBounds(widthRange, METRIC_BOUNDS.width[0], METRIC_BOUNDS.width[1], M_PER_FT, us);
     setRangeBounds(heightRange, METRIC_BOUNDS.height[0], METRIC_BOUNDS.height[1], M_PER_FT, us);
+    areaRange.min = round2(haToDisplayArea(METRIC_BOUNDS.area[0], us));
+    areaRange.max = round2(haToDisplayArea(METRIC_BOUNDS.area[1], us));
     setRangeBounds(densityRange, METRIC_BOUNDS.density[0], METRIC_BOUNDS.density[1], ACRES_PER_HA, us);
     setRangeBounds(qmdRange, METRIC_BOUNDS.qmd[0], METRIC_BOUNDS.qmd[1], CM_PER_IN, us);
     setRangeBounds(sdRange, METRIC_BOUNDS.sd[0], METRIC_BOUNDS.sd[1], CM_PER_IN, us);
@@ -315,6 +372,7 @@
     setRangeBounds(grassRange, METRIC_BOUNDS.grass[0], METRIC_BOUNDS.grass[1], ACRES_PER_HA, us);
     setRangeStep(widthRange, 'width', us);
     setRangeStep(heightRange, 'height', us);
+    setRangeStep(areaRange, 'area', us);
     setRangeStep(densityRange, 'density', us);
     setRangeStep(qmdRange, 'qmd', us);
     setRangeStep(sdRange, 'sd', us);
@@ -322,6 +380,7 @@
     setRangeStep(grassRange, 'grass', us);
     setRangeScale(widthRange, widthScale);
     setRangeScale(heightRange, heightScale);
+    setRangeScale(areaRange, areaScale);
     setRangeScale(densityRange, densityScale);
     setRangeScale(qmdRange, qmdScale);
     setRangeScale(sdRange, sdScale);
@@ -329,6 +388,7 @@
     setRangeScale(grassRange, grassScale);
     syncRangeToNumber(widthRange, widthInput);
     syncRangeToNumber(heightRange, heightInput);
+    syncRangeToNumber(areaRange, areaInput);
     syncRangeToNumber(densityRange, densityInput);
     syncRangeToNumber(qmdRange, qmdInput);
     syncRangeToNumber(sdRange, sdInput);
@@ -337,6 +397,7 @@
 
     widthUnitEl.textContent = us ? 'ft' : 'm';
     heightUnitEl.textContent = us ? 'ft' : 'm';
+    areaUnitEl.textContent = us ? 'acres' : 'ha';
     densityUnitEl.textContent = us ? 'acre' : 'ha';
     qmdUnitEl.textContent = us ? 'in' : 'cm';
     sdUnitEl.textContent = us ? 'in' : 'cm';
@@ -345,7 +406,6 @@
 
     updateDerived();
     drawDistributionPreview();
-    updateAreaDisplay();
   }
   unitsRadios.forEach(function (radio) {
     radio.addEventListener('change', applyUnitsDisplay);
@@ -1295,11 +1355,19 @@
   // (this also computes the initial derived field as a side effect).
   // Otherwise just compute the initial derived field and tag it directly.
   if (isUS()) {
+    // applyUnitsDisplay() converts the raw (metric) HTML defaults straight
+    // to US units, area field included — it doesn't rely on isUS()
+    // matching what's currently on screen the way applyDimsToArea() does,
+    // so it's the only one safe to call before the display and the units
+    // toggle actually agree with each other.
     applyUnitsDisplay();
   } else {
     updateDerived();
     drawDistributionPreview();
-    updateAreaDisplay();
+    // Area starts out derived from the HTML's default (square) Width/
+    // Height, so it's exact rather than relying on the HTML's separately
+    // hand-authored (rounded) Area default.
+    applyDimsToArea();
   }
 
   // Auto-generate an initial stand on load (using the default settings)

@@ -643,6 +643,32 @@ table.specs th {
   color: var(--white);
 }
 
+/* Same chain-link visual language as .link-toggle, but sized for a text
+   label instead of an icon — used to switch Stand Dimensions between a
+   single Area-driven square and independently-set Width/Length. */
+.mode-toggle {
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
+  border: 1px solid #e3ddc9;
+  border-radius: var(--radius);
+  background: var(--white);
+  color: var(--ink-soft);
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 0.7rem;
+  letter-spacing: 0.03em;
+  flex: none;
+  white-space: nowrap;
+}
+.mode-toggle[aria-pressed="true"] {
+  background: var(--forest-mid);
+  border-color: var(--forest-mid);
+  color: var(--white);
+}
+
 /* ==========================================================================
    Stand Generator preview
    ========================================================================== */
@@ -1184,16 +1210,28 @@ table.specs th {
   list-style: none;
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
   gap: 20px;
   padding: 0;
   margin: 0 0 32px;
 }
-.credits__logos a { text-decoration: none; }
+.credits__logos a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+}
 .credit-logo {
   height: 48px;
   width: auto;
   max-width: 180px;
   object-fit: contain;
+}
+.credit-logo--nrcs {
+  /* NRCS lockup is a ~10.5:1 wide wordmark, not a square-ish mark like the
+     others — the shared height/max-width would clip it down to ~17px tall
+     via object-fit: contain, so it gets its own sizing to render proportionally. */
+  height: 34px;
+  max-width: 360px;
 }
 .footer-links {
   display: flex;

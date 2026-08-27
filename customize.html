@@ -70,30 +70,14 @@
       </div>
     </div>
 
-    <p class="section-label">Stand Dimensions</p>
-    <div style="display:flex; align-items:center; gap:12px;">
-      <div style="display:flex; flex-direction:column; align-items:center; gap:4px; flex:none;">
-        <span id="sg-area-display" style="font-size:0.72rem; font-weight:600; color:var(--forest-dark); white-space:nowrap;"></span>
-        <button type="button" id="sg-dims-link" class="link-toggle" aria-pressed="true"></button>
+    <p class="section-label">Stand Area (Acres)</p>
+    <div class="form-field">
+      <label for="sg-area">Area (<span id="sg-area-unit">ha</span>)</label>
+      <div class="slider-field">
+          <input type="range" id="sg-area-range" min="0.01" max="9.29" step="0.01" value="5.95">
+        <input type="number" id="sg-area" name="area" value="5.95" min="0.01" step="any" required>
       </div>
-      <div class="grid grid--2" style="flex:1;">
-      <div class="form-field">
-        <label for="sg-width">Width (<span id="sg-width-unit">m</span>)</label>
-        <div class="slider-field">
-            <input type="range" id="sg-width-range" min="10" max="304.8" step="1" value="243.84">
-          <input type="number" id="sg-width" name="width" value="243.84" min="1" step="any" required>
-        </div>
-        <div class="slider-scale"><span id="sg-width-scale-min"></span><span id="sg-width-scale-mid"></span><span id="sg-width-scale-max"></span></div>
-      </div>
-      <div class="form-field">
-        <label for="sg-height">Height (<span id="sg-height-unit">m</span>)</label>
-        <div class="slider-field">
-            <input type="range" id="sg-height-range" min="10" max="304.8" step="1" value="243.84">
-          <input type="number" id="sg-height" name="height" value="243.84" min="1" step="any" required>
-        </div>
-        <div class="slider-scale"><span id="sg-height-scale-min"></span><span id="sg-height-scale-mid"></span><span id="sg-height-scale-max"></span></div>
-      </div>
-      </div>
+      <div class="slider-scale"><span id="sg-area-scale-min"></span><span id="sg-area-scale-mid"></span><span id="sg-area-scale-max"></span></div>
     </div>
 
     <p class="note" style="margin-bottom:12px;">Density, QMD, and Basal Area are mathematically linked. Edit any two and the third recalculates automatically — whichever one you haven't touched most recently. Values are approximate due to randomization.</p>
@@ -138,6 +122,30 @@
 
     <details class="form-field">
       <summary style="cursor:pointer; font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.04em; color:var(--forest-dark);">Advanced Settings</summary>
+
+      <p class="section-label" style="margin-top:20px;">Stand Dimensions</p>
+      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
+        <p class="note" id="sg-dims-mode-note" style="margin:0;"></p>
+        <button type="button" id="sg-dims-mode-btn" class="mode-toggle" aria-pressed="false"></button>
+      </div>
+      <div class="grid grid--2">
+        <div class="form-field">
+          <label for="sg-width">Width (<span id="sg-width-unit">m</span>)</label>
+          <div class="slider-field">
+              <input type="range" id="sg-width-range" min="10" max="304.8" step="1" value="243.84" disabled>
+            <input type="number" id="sg-width" name="width" value="243.84" min="1" step="any" required disabled>
+          </div>
+          <div class="slider-scale"><span id="sg-width-scale-min"></span><span id="sg-width-scale-mid"></span><span id="sg-width-scale-max"></span></div>
+        </div>
+        <div class="form-field">
+          <label for="sg-height">Length (<span id="sg-height-unit">m</span>)</label>
+          <div class="slider-field">
+              <input type="range" id="sg-height-range" min="10" max="304.8" step="1" value="243.84" disabled>
+            <input type="number" id="sg-height" name="height" value="243.84" min="1" step="any" required disabled>
+          </div>
+          <div class="slider-scale"><span id="sg-height-scale-min"></span><span id="sg-height-scale-mid"></span><span id="sg-height-scale-max"></span></div>
+        </div>
+      </div>
 
       <div class="form-field">
         <label for="sg-sd">DBH Standard Deviation (<span id="sg-sd-unit">cm</span>)</label>
