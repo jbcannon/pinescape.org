@@ -1,4 +1,4 @@
-# Pinecraft site
+# Pinescape site
 
 Source for [pinecraftvr.org](https://pinecraftvr.org): plain HTML/CSS/JS, hosted on GitHub Pages.
 
@@ -20,12 +20,12 @@ See `todolist.txt` for the current state and what's next.
 -   `.nojekyll`: tells GitHub Pages to serve files as-is, skip its Jekyll build
 -   `media-source/`: large source video files, gitignored (too big for git; gets uploaded as a GitHub Release asset instead)
 
-## Publishing a new Pinecraft build
+## Publishing a new Pinescape build
 
 The Download button on `download.html` points at GitHub's "latest release" URL pattern, which always serves whichever release is currently marked "Latest" — no code change needed here when you ship a new build. To publish one:
 
 1.  Name the build's zip **exactly** `pinecraftvr-windows.zip` — this filename has to stay identical every time, or the download link 404s until `download.html` is updated to match.
-2.  Go to `https://github.com/jbcannon/pinecraftvr.org/releases/new` and draft a **new** release (don't edit an old one) — pick a fresh version tag (e.g. `v1.1`), target `main`, title it, write release notes.
+2.  Go to `https://github.com/jbcannon/pinescape.org/releases/new` and draft a **new** release (don't edit an old one) — pick a fresh version tag (e.g. `v1.1`), target `main`, title it, write release notes.
 3.  Upload `pinecraftvr-windows.zip` as the release asset.
 4.  Leave "Set as the latest release" checked (it's the default) and publish.
 

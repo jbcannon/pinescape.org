@@ -33,7 +33,7 @@ if (contactForm) {
     var reason = contactForm.reason.value;
     var message = contactForm.message.value.trim();
 
-    var subject = 'Pinecraft Contact: ' + reason;
+    var subject = 'Pinescape Contact: ' + reason;
     var body = [
       'Name: ' + (name || '(not provided)'),
       'Email: ' + email,
@@ -42,7 +42,7 @@ if (contactForm) {
       message
     ].join('\n');
 
-    window.location.href = 'mailto:pinecraft@jonesctr.org'
+    window.location.href = 'mailto:pinescape@jonesctr.org'
       + '?subject=' + encodeURIComponent(subject)
       + '&body=' + encodeURIComponent(body);
   });

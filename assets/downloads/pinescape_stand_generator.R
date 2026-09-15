@@ -1,6 +1,6 @@
-# pinecraft_stand_generator.R
+# pinescape_stand_generator.R
 #
-# R template for generating synthetic longleaf pine stands for Pinecraft.
+# R template for generating synthetic longleaf pine stands for Pinescape.
 # Mirrors the web-based Stand Generator at pinecraftvr.org/customize.html
 # (same DBH/height/defect math, same CSV format), plus adds ggplot2 stem
 # map and diameter distribution plots.

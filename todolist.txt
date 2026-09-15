@@ -60,8 +60,8 @@ PHASE 1 — GET THE LANDING PAGE LIVE
 Ordered by what actually blocks what — not just top-to-bottom.
 
 --- 1a. DONE ---
-[x] Create the GitHub repo -> https://github.com/jbcannon/pinecraftvr.org
-    (website repo; separate "pinecraftvr" repo reserved for the Unreal
+[x] Create the GitHub repo -> https://github.com/jbcannon/pinescape.org
+    (website repo; separate "pinescapevr" repo reserved for the Unreal
     open-source project, once those files are shared)
 [x] git init, first commit, push to GitHub
 [x] Default branch renamed master -> main; GitHub Pages source = main
@@ -90,7 +90,7 @@ Ordered by what actually blocks what — not just top-to-bottom.
 [x] Rewrote the "mixed-age forests" blurb and most other landing-page copy
 [x] Real logo files -> assets/img/logos/ (Jones Center, Devhouse Games,
     USDA NRCS) wired into partials/footer.html
-[x] Pinecraft wordmark + favicon icon in partials/header.html
+[x] Pinescape wordmark + favicon icon in partials/header.html
 [x] Favicon -> assets/img/favicon.png (three-tree mark; alternate seedling
     version explored and set aside)
 [ ] Optional: short (5-15s), silent, lightweight loop clip -> assets/video/
@@ -128,7 +128,7 @@ for Contact.
     download) plus a Source Code blurb pointing at the still-pending
     Open Source repo. The earlier "Your Forest" (species-mix
     customization) idea was dropped from this page. Also added a callout
-    box + downloadable R template (assets/downloads/pinecraft_stand_
+    box + downloadable R template (assets/downloads/pinescape_stand_
     generator.R) for people who'd rather code their own stands — same
     math/defaults as the JS tool, plus ggplot2 stem-map and diameter-
     distribution plots.
@@ -164,7 +164,7 @@ for Contact.
     Stoddard-Neel paragraph.
 [x] Contact (contact.html) — contact info, link to the Landscape Ecology
     Lab, and a contact form (mailto-based for now, see backlog)
-[ ] Link to the Forestry article about Pinecraft (decide where it goes —
+[ ] Link to the Forestry article about Pinescape (decide where it goes —
     About page? Its own press mention? Footer?)
 [ ] Gallery (gallery.html) — screenshots and renders gallery, new nav item
     added as a stub, matches the backlog "Screenshots gallery" idea below

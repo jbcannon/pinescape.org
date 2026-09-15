@@ -6,7 +6,7 @@
 //
 // Unit note: the form can display metric or US units, but the CSV always
 // contains metric values (cm, meters), same as the R script, since
-// that's what Pinecraft's importer expects. The units toggle only
+// that's what Pinescape's importer expects. The units toggle only
 // converts what's shown on screen, both in the inputs and in the summary
 // message after generating.
 //
@@ -835,7 +835,7 @@
     // Grass-stage seedlings drawn first, as a background layer under the
     // measured overstory — small, distinct, and deliberately not part of
     // `trees` below, so they never register in the hover tooltip (they're
-    // non-interactable in Pinecraft itself).
+    // non-interactable in Pinescape itself).
     if (grassPositions && grassPositions.X.length) {
       var GRASS_R = 2.4;
       ctx.fillStyle = 'rgba(196, 214, 120, 0.7)';
