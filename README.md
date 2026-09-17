@@ -1,6 +1,6 @@
 # Pinescape site
 
-Source for [pinecraftvr.org](https://pinecraftvr.org): plain HTML/CSS/JS, hosted on GitHub Pages.
+Source for [pinescape.org](https://pinescape.org): plain HTML/CSS/JS, hosted on GitHub Pages.
 
 ## Working on this
 
