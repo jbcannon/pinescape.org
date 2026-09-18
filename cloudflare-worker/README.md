@@ -39,12 +39,12 @@ Run these from inside this `cloudflare-worker/` folder.
 3. **Create the R2 bucket and upload the release file:**
    ```
    npx wrangler r2 bucket create pinescape-downloads
-   npx wrangler r2 object put pinescape-downloads/pinecraftvr-windows.zip --file=./pinecraftvr-windows.zip
+   npx wrangler r2 object put pinescape-downloads/PinescapeSetup.exe --file=./PinescapeSetup.exe
    ```
-   (Grab the current Windows build zip from the project's GitHub Releases
+   (Grab the current Windows installer from the project's GitHub Releases
    page first if you don't already have it locally.) The object key must
    match `DOWNLOAD_ASSET_KEY` in `wrangler.toml`: they're both
-   `pinecraftvr-windows.zip` by default, so no change needed unless the
+   `PinescapeSetup.exe` by default, so no change needed unless the
    filename changes later.
 
 4. **Set up Resend:**
@@ -75,7 +75,7 @@ Run these from inside this `cloudflare-worker/` folder.
 
 7. **Retire the old public download link:** once you've confirmed the gated
    download works end-to-end (see Testing below), delete or remove the
-   `pinecraftvr-windows.zip` asset from the GitHub Release it's currently
+   `PinescapeSetup.exe` asset from the GitHub Release it's currently
    attached to, so the old ungated URL stops serving the file. The site no
    longer links to it directly, but the direct URL would keep working until
    the asset itself is removed.
@@ -86,7 +86,7 @@ Run these from inside this `cloudflare-worker/` folder.
 |---|---|
 | `NOTIFY_EMAIL` | Where lead/contact notifications go (currently `pinescape@jonesctr.org`) |
 | `FROM_EMAIL` | The verified Resend sending address, e.g. `Pinescape <noreply@pinescape.org>` |
-| `DOWNLOAD_ASSET_KEY` | R2 object key of the current release zip |
+| `DOWNLOAD_ASSET_KEY` | R2 object key of the current release installer |
 | `DOWNLOAD_TTL_SECONDS` | How long a download link stays valid (currently 259200 = 3 days) |
 
 ## Testing

@@ -7,11 +7,11 @@
 //
 // Bindings (see wrangler.toml / README.md for setup):
 //   PINESCAPE_DOWNLOADS  - KV namespace, one-time download tokens
-//   PINESCAPE_ASSETS     - R2 bucket, holds the release .zip
+//   PINESCAPE_ASSETS     - R2 bucket, holds the release installer
 //   RESEND_API_KEY       - secret, Resend API key
 //   NOTIFY_EMAIL         - address that gets lead/contact notifications
 //   FROM_EMAIL           - verified Resend sending address
-//   DOWNLOAD_ASSET_KEY   - R2 object key of the current release zip
+//   DOWNLOAD_ASSET_KEY   - R2 object key of the current release installer
 //   DOWNLOAD_TTL_SECONDS - one-time link lifetime, in seconds
 
 var ALLOWED_ORIGINS = ['https://pinescape.org', 'https://www.pinescape.org'];

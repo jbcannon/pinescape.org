@@ -15,7 +15,7 @@ bucket_name = "pinescape-downloads"
 [vars]
 NOTIFY_EMAIL = "pinescape@jonesctr.org"
 FROM_EMAIL = "Pinescape <noreply@pinescape.org>"
-DOWNLOAD_ASSET_KEY = "pinecraftvr-windows.zip"
+DOWNLOAD_ASSET_KEY = "PinescapeSetup.exe"
 DOWNLOAD_TTL_SECONDS = "259200"
 
 # RESEND_API_KEY is a secret, not set here, see README.md step 5
