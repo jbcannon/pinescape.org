@@ -11,14 +11,29 @@ HOW TO USE THIS FILE
     2026-08-19, pulled it back out same day (unreliable). DNS-based
     protection (Cloudflare Access) is now set up in front of
     pinecraftvr.org while the team reviews, confirmed live 2026-08-20.
-[ ] Once the team's signed off and the site's ready to go fully public:
-    turn off the Cloudflare Access gate, and remove the
-    <meta name="robots" content="noindex, nofollow"> line from all 7
-    pages' <head> (index, about, contact, customize, download, gallery,
-    tutorial), added 2026-08-19.
-[ ] "Under Construction" banner (yellow/black stripes, top of every page
-    via partials/header.html) should also come down once the team's
-    signed off and this goes fully public.
+[x] Team signed off and site's fully public as of 2026-09-17: Cloudflare
+    Access gate turned off, and the <meta name="robots" content="noindex,
+    nofollow"> line removed from all 7 pages' <head>.
+[x] "Under Construction" banner (yellow/black stripes, top of every page
+    via partials/header.html and partials/footer.html) removed entirely
+    2026-09-17, including its CSS in main.css.
+
+*** UPLOAD SOON ***
+[ ] Upload installer/Output/PinescapeSetup.exe (built 2026-09-17,
+    tested end to end: install, Start Menu shortcuts, Add/Remove Programs
+    entry, clean uninstall) as a GitHub Release asset, same pattern as
+    pinecraftvr-windows.zip. It's gitignored (475MB, over GitHub's 100MB
+    file limit for regular commits), so it only exists locally right now,
+    nowhere for anyone else to get it from yet.
+
+*** CLOUDFLARE WORKER NOT YET DEPLOYED ***
+[ ] The download-gate form (download.html) and contact form (contact.html)
+    both call https://api.pinescape.org, which doesn't exist yet. Until
+    the Worker in cloudflare-worker/ is deployed, both forms just show an
+    error on submit. Follow cloudflare-worker/README.md to deploy it
+    yourself (needs Cloudflare account access + a Resend account) or hand
+    that whole folder + README to the IT contact who manages the
+    Cloudflare account.
 
 ===============================================================================
 PHASE 0: SCAFFOLDING (done)
@@ -108,8 +123,15 @@ Ordered by what actually blocks what, not just top-to-bottom.
 ===============================================================================
 PHASE 2: OPEN SOURCE UNREAL PROJECT
 ===============================================================================
-[ ] Decide on a license for the Unreal project files
+[x] Decide on a license for the Unreal project files: MIT, copyright held
+    by The Jones Center at Ichauway. Drafted 2026-09-17 as LICENSE and
+    CITATION.cff (authors: the full About page team) in for-unreal-repo/
+    in this repo, since the pinescapevr repo doesn't exist yet.
 [ ] Push the uncompiled Unreal project to its own GitHub repo
+    (github.com/jbcannon/pinescapevr). Once pushed, copy LICENSE and
+    CITATION.cff from for-unreal-repo/ into that repo's root, update
+    CITATION.cff's version/date-released to match, then delete
+    for-unreal-repo/ from this repo.
 [ ] Point the "Open Source" links at that repo (partials/footer.html and
     the button on index.html both have a TODO comment marking the spot)
 [ ] Remove the "coming-soon" class + Soon badge from those two links once done
@@ -154,10 +176,8 @@ for Contact.
     section has all 5 members with real titles: Cannon, Rutledge,
     Puhlick, and McGuire have real headshots in; Kevin McIntyre is still
     a "KM" placeholder circle, waiting on his photo.
-[ ] Get feedback on the About page's ecological forestry language from
-    colleagues before treating it as final. Jeff's paper phrasing was
-    pulled in fairly directly; worth a second set of eyes on accuracy and
-    tone before this is public-facing.
+[x] Get feedback on the About page's ecological forestry language from
+    colleagues before treating it as final. Done, confirmed 2026-09-17.
 [x] Add a link to the Stoddard-Neel outreach publication on the About
     page (Ecological Forestry section) -> jonesctr.org/the-stoddard-neel-
     approach-to-ecological-forestry/, linked inline at the end of the
@@ -166,13 +186,15 @@ for Contact.
     Lab, and a contact form (mailto-based for now, see backlog)
 [ ] Link to the Forestry article about Pinescape (decide where it goes:
     About page? Its own press mention? Footer?)
-[ ] Gallery (gallery.html): screenshots and renders gallery, new nav item
-    added as a stub, matches the backlog "Screenshots gallery" idea below
+[x] Gallery (gallery.html): screenshots and renders gallery, done
+    2026-09-17 with real photos in gallery-photos/ and the "Soon" nav
+    badge removed. See matching backlog item below.
 
 ===============================================================================
 BACKLOG / IDEAS (not yet scheduled)
 ===============================================================================
-[ ] Screenshots gallery on landing page (beyond the demo video)
+[x] Screenshots gallery on landing page (beyond the demo video), done
+    2026-09-17, see Gallery (gallery.html) above
 [x] Analytics: Google Analytics (gtag.js) added to every page
 [ ] Basic support/FAQ page once you're ready to take on support questions
 [ ] Move demo video off GitHub (currently a Release asset under the
