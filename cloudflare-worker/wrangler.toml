@@ -1,0 +1,30 @@
+name = "pinescape-api"
+main = "src/index.js"
+compatibility_date = "2025-01-01"
+
+# Fill in after `wrangler kv namespace create PINESCAPE_DOWNLOADS`, see README.md step 2.
+[[kv_namespaces]]
+binding = "PINESCAPE_DOWNLOADS"
+id = "REPLACE_WITH_KV_NAMESPACE_ID"
+
+# Bucket must already exist, see README.md step 3.
+[[r2_buckets]]
+binding = "PINESCAPE_ASSETS"
+bucket_name = "pinescape-downloads"
+
+[vars]
+NOTIFY_EMAIL = "pinescape@jonesctr.org"
+FROM_EMAIL = "Pinescape <noreply@pinescape.org>"
+DOWNLOAD_ASSET_KEY = "pinecraftvr-windows.zip"
+DOWNLOAD_TTL_SECONDS = "259200"
+
+# RESEND_API_KEY is a secret, not set here, see README.md step 5
+# (`wrangler secret put RESEND_API_KEY`).
+
+# The api.pinescape.org custom domain is easiest to add from the Cloudflare
+# dashboard after the first deploy (Workers & Pages -> this worker ->
+# Settings -> Triggers -> Custom Domains), see README.md step 6. Uncomment
+# below instead if you'd rather manage it here and redeploy:
+# routes = [
+#   { pattern = "api.pinescape.org", custom_domain = true }
+# ]

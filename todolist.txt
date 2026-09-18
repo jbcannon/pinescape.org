@@ -1,4 +1,4 @@
-PINECRAFTVR.ORG — TODO LIST
+PINECRAFTVR.ORG: TODO LIST
 Last updated: 2026-08-19
 
 HOW TO USE THIS FILE
@@ -11,19 +11,34 @@ HOW TO USE THIS FILE
     2026-08-19, pulled it back out same day (unreliable). DNS-based
     protection (Cloudflare Access) is now set up in front of
     pinecraftvr.org while the team reviews, confirmed live 2026-08-20.
-[ ] Once the team's signed off and the site's ready to go fully public:
-    turn off the Cloudflare Access gate, and remove the
-    <meta name="robots" content="noindex, nofollow"> line from all 7
-    pages' <head> (index, about, contact, customize, download, gallery,
-    tutorial), added 2026-08-19.
-[ ] "Under Construction" banner (yellow/black stripes, top of every page
-    via partials/header.html) should also come down once the team's
-    signed off and this goes fully public.
+[x] Team signed off and site's fully public as of 2026-09-17: Cloudflare
+    Access gate turned off, and the <meta name="robots" content="noindex,
+    nofollow"> line removed from all 7 pages' <head>.
+[x] "Under Construction" banner (yellow/black stripes, top of every page
+    via partials/header.html and partials/footer.html) removed entirely
+    2026-09-17, including its CSS in main.css.
+
+*** UPLOAD SOON ***
+[ ] Upload installer/Output/PinescapeSetup.exe (built 2026-09-17,
+    tested end to end: install, Start Menu shortcuts, Add/Remove Programs
+    entry, clean uninstall) as a GitHub Release asset, same pattern as
+    pinecraftvr-windows.zip. It's gitignored (475MB, over GitHub's 100MB
+    file limit for regular commits), so it only exists locally right now,
+    nowhere for anyone else to get it from yet.
+
+*** CLOUDFLARE WORKER NOT YET DEPLOYED ***
+[ ] The download-gate form (download.html) and contact form (contact.html)
+    both call https://api.pinescape.org, which doesn't exist yet. Until
+    the Worker in cloudflare-worker/ is deployed, both forms just show an
+    error on submit. Follow cloudflare-worker/README.md to deploy it
+    yourself (needs Cloudflare account access + a Resend account) or hand
+    that whole folder + README to the IT contact who manages the
+    Cloudflare account.
 
 ===============================================================================
-PHASE 0 — SCAFFOLDING (done)
+PHASE 0: SCAFFOLDING (done)
 ===============================================================================
-[x] Site built as plain HTML/CSS/JS — no build step, no Jekyll, no Ruby.
+[x] Site built as plain HTML/CSS/JS, no build step, no Jekyll, no Ruby.
     (Tried a Jekyll/Ruby setup first; the Windows compiler toolchain needed
     for native gems turned out broken/not worth fighting, and a
     fetch()-based include script gets the same "edit once, updates
@@ -31,33 +46,33 @@ PHASE 0 — SCAFFOLDING (done)
 [x] Color palette + fonts pulled from gameplay/pause-menu screenshots
 [x] Landing page draft (index.html) with all requested sections
 [x] Shared header/footer via partials/header.html + partials/footer.html,
-    loaded into every page by assets/js/main.js — edit those two files,
+    loaded into every page by assets/js/main.js: edit those two files,
     every page updates automatically, no copy-pasting
 [x] Site structure settled after a few rounds of trimming:
-      - No separate Install page — folded into Home's download section
-      - No separate Open Source page — footer link goes straight to the
+      - No separate Install page: folded into Home's download section
+      - No separate Open Source page: footer link goes straight to the
         Unreal project's GitHub repo once it's pushed (repo README is
         the documentation, no reason to duplicate it here)
       - Stand Generator + Your Forest merged into one page, "Customize"
         (dual content, one nav link)
-      - Added Download as a real page (not a stub) — the download button
+      - Added Download as a real page (not a stub): the download button
         and system requirements live there, off of Home
     Current top nav: Home, Gallery, Download, Customize, Getting Started, About
     Current footer links: GitHub (external), Contact
-[x] Demo video moved out of repo into media-source/ (gitignored — too big
+[x] Demo video moved out of repo into media-source/ (gitignored, too big
     for git, ~122MB)
 [x] Footer credit line links to both the Landscape Ecology Lab
     (lab.jonesctr.org/cannon/) and The Jones Center at Ichauway
     (jonesctr.org)
 [x] Hero section wired up for a looping background video (assets/video/
-    hero-loop.mp4) with a dark overlay so text stays readable — no file
+    hero-loop.mp4) with a dark overlay so text stays readable, no file
     yet, so it currently just shows the plain gradient. Hidden on mobile
     to save data.
 
 ===============================================================================
-PHASE 1 — GET THE LANDING PAGE LIVE
+PHASE 1: GET THE LANDING PAGE LIVE
 ===============================================================================
-Ordered by what actually blocks what — not just top-to-bottom.
+Ordered by what actually blocks what, not just top-to-bottom.
 
 --- 1a. DONE ---
 [x] Create the GitHub repo -> https://github.com/jbcannon/pinescape.org
@@ -66,20 +81,20 @@ Ordered by what actually blocks what — not just top-to-bottom.
 [x] git init, first commit, push to GitHub
 [x] Default branch renamed master -> main; GitHub Pages source = main
     branch root
-[x] Custom domain live at both pinecraftvr.org and www.pinecraftvr.org —
+[x] Custom domain live at both pinecraftvr.org and www.pinecraftvr.org:
     DNS confirmed pointed at GitHub Pages, CNAME file committed. See 1c
     below for the one remaining check (HTTPS enforcement).
 
 --- 1b. FILL IN THE PLACEHOLDERS (any order) ---
-[x] Create a GitHub Release for the Windows build — tag v1.0, kept
+[x] Create a GitHub Release for the Windows build (tag v1.0), kept
     separate from the "media.01" release since this one's an actual
     software build
 [x] Update download.html: Download button uses GitHub's "latest" URL
     pattern (.../releases/latest/download/pinecraftvr-windows.zip), which
-    always serves whatever release is marked "Latest" — no link update
+    always serves whatever release is marked "Latest": no link update
     needed on future releases, AS LONG AS the uploaded asset keeps this
     exact filename every time (pinecraftvr-windows.zip). The release TAG
-    can still be versioned (v1.1, v2.0, etc.) — only the asset filename
+    can still be versioned (v1.1, v2.0, etc.); only the asset filename
     needs to stay fixed. If a future upload ever uses a different
     filename, this link 404s until download.html is updated to match.
 [x] Update index.html: Video section wired to the real demo video
@@ -106,74 +121,81 @@ Ordered by what actually blocks what — not just top-to-bottom.
     -> http://pinecraftvr.org now 301-redirects straight to https://
 
 ===============================================================================
-PHASE 2 — OPEN SOURCE UNREAL PROJECT
+PHASE 2: OPEN SOURCE UNREAL PROJECT
 ===============================================================================
-[ ] Decide on a license for the Unreal project files
+[x] Decide on a license for the Unreal project files: MIT, copyright held
+    by The Jones Center at Ichauway. Drafted 2026-09-17 as LICENSE and
+    CITATION.cff (authors: the full About page team) in for-unreal-repo/
+    in this repo, since the pinescapevr repo doesn't exist yet.
 [ ] Push the uncompiled Unreal project to its own GitHub repo
+    (github.com/jbcannon/pinescapevr). Once pushed, copy LICENSE and
+    CITATION.cff from for-unreal-repo/ into that repo's root, update
+    CITATION.cff's version/date-released to match, then delete
+    for-unreal-repo/ from this repo.
 [ ] Point the "Open Source" links at that repo (partials/footer.html and
     the button on index.html both have a TODO comment marking the spot)
 [ ] Remove the "coming-soon" class + Soon badge from those two links once done
 
 ===============================================================================
-PHASE 3 — REMAINING PAGES (tackle in whatever order makes sense)
+PHASE 3: REMAINING PAGES (tackle in whatever order makes sense)
 ===============================================================================
 Each of these already exists as a working stub page with nav wired up.
 To bring one online: replace its "Coming Soon" section with the real
 content, then remove its "coming-soon" class + Soon badge from the nav
-link — in partials/header.html for top-nav pages, partials/footer.html
+link: in partials/header.html for top-nav pages, partials/footer.html
 for Contact.
 
-[x] Customize (customize.html) — fully built out: a working Stand
+[x] Customize (customize.html), fully built out: a working Stand
     Generator (settings, live preview with defect visualization, CSV
     download) plus a Source Code blurb pointing at the still-pending
     Open Source repo. The earlier "Your Forest" (species-mix
     customization) idea was dropped from this page. Also added a callout
     box + downloadable R template (assets/downloads/pinescape_stand_
-    generator.R) for people who'd rather code their own stands — same
+    generator.R) for people who'd rather code their own stands, same
     math/defaults as the JS tool, plus ggplot2 stem-map and diameter-
     distribution plots.
-[x] Getting Started (tutorial.html) — six collapsible sections (Download
+[x] Getting Started (tutorial.html): six collapsible sections (Download
     & Installation, PC Setup, VR Setup, Menus & Sessions, Loading Custom
     Maps, Tips & Troubleshooting), with screenshot placeholders + captions
     left for real screenshots to be dropped in. Corrected against
     "Desktop/Pinecraft Launch/Pinecraft Important Info.pdf" (Devhouse's
-    handoff doc) — fixed the exe name (Forestry.exe, not forest.exe),
+    handoff doc): fixed the exe name (Forestry.exe, not forest.exe),
     the pause-menu key (P, not Esc), and the custom-map folder/behavior
-    (SavedData/Local, loads first file alphabetically — not
+    (SavedData/Local, loads first file alphabetically, not
     SavedData/Download, not "most recent," as earlier text had said).
     Unzipped install size confirmed: 885 MB. Required NVIDIA driver version
     still marked [TBD] in both tutorial.html and download.html's System
-    Requirements table — not in that PDF either.
-[x] About (about.html) — reframed around Ecological Forestry broadly (using
+    Requirements table, not in that PDF either.
+[x] About (about.html) reframed around Ecological Forestry broadly (using
     Jeff's own paper phrasing), with the Stoddard-Neel approach presented
     as one documented example rather than the whole story. Jump-links pill
     nav at the top (Ecological Forestry / Partners / The Team) so the
     lower sections don't get buried under the long first section. Partner
     cards (Jones Center, Devhouse Games, USDA NRCS) are dark-background
     cards with the whole card clickable through to each org's site. Team
-    section has all 5 members with real titles — Cannon, Rutledge,
+    section has all 5 members with real titles: Cannon, Rutledge,
     Puhlick, and McGuire have real headshots in; Kevin McIntyre is still
     a "KM" placeholder circle, waiting on his photo.
-[ ] Get feedback on the About page's ecological forestry language from
-    colleagues before treating it as final. Jeff's paper phrasing was
-    pulled in fairly directly; worth a second set of eyes on accuracy and
-    tone before this is public-facing.
+[x] Get feedback on the About page's ecological forestry language from
+    colleagues before treating it as final. Done, confirmed 2026-09-17.
 [x] Add a link to the Stoddard-Neel outreach publication on the About
     page (Ecological Forestry section) -> jonesctr.org/the-stoddard-neel-
     approach-to-ecological-forestry/, linked inline at the end of the
     Stoddard-Neel paragraph.
-[x] Contact (contact.html) — contact info, link to the Landscape Ecology
+[x] Contact (contact.html): contact info, link to the Landscape Ecology
     Lab, and a contact form (mailto-based for now, see backlog)
-[ ] Link to the Forestry article about Pinescape (decide where it goes —
+[ ] Link to the Forestry article about Pinescape (decide where it goes:
     About page? Its own press mention? Footer?)
-[ ] Gallery (gallery.html) — screenshots and renders gallery, new nav item
-    added as a stub, matches the backlog "Screenshots gallery" idea below
+[x] Gallery (gallery.html): screenshots and renders gallery, done
+    2026-09-17 with real photos in gallery-photos/ and the "Soon" nav
+    badge removed. See matching backlog item below.
 
 ===============================================================================
 BACKLOG / IDEAS (not yet scheduled)
 ===============================================================================
-[ ] Screenshots gallery on landing page (beyond the demo video)
-[x] Analytics — Google Analytics (gtag.js) added to every page
+[x] Screenshots gallery on landing page (beyond the demo video), done
+    2026-09-17, see Gallery (gallery.html) above
+[x] Analytics: Google Analytics (gtag.js) added to every page
 [ ] Basic support/FAQ page once you're ready to take on support questions
 [ ] Move demo video off GitHub (currently a Release asset under the
     "media.01" tag) and onto YouTube for faster loading, adaptive bitrate
@@ -194,10 +216,10 @@ BACKLOG / IDEAS (not yet scheduled)
     Now converts DBH/height at display time in the canvas mousemove
     handler, same as the rest of the tool. Fixed and verified 2026-08-20.
 [x] SavedData/Local (load custom maps) and SavedData/Export (marked-tree
-    export) folder paths confirmed against Devhouse's handoff PDF — see
+    export) folder paths confirmed against Devhouse's handoff PDF, see
     note under Getting Started above.
 [ ] Set up a proper form backend for the Contact page (e.g. Formspree) so
     submissions actually land in an inbox. Currently the form builds a
-    mailto: link and hands off to the visitor's own email client — works,
+    mailto: link and hands off to the visitor's own email client, works,
     but only if they have one configured as their system default, and the
     email comes from their address rather than through a real handler.

@@ -563,6 +563,20 @@ section.section--photo-bg {
   transform: none;
   text-shadow: none;
 }
+.gallery-card { padding: 0; overflow: hidden; }
+.gallery-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: contain;
+  background: var(--forest-dark);
+  display: block;
+}
+.gallery-card figcaption {
+  padding: 16px 20px;
+  color: var(--ink-soft);
+  font-size: 0.92rem;
+}
+
 .card--soon:hover {
   transform: none;
   border-color: var(--forest-mauve);
@@ -601,13 +615,34 @@ table.specs th {
   font-size: 0.8rem;
   letter-spacing: 0.04em;
 }
+/* Download page's System Requirements table: values here (TBD, N/A, short
+   phrases) look sparse stretched across the full site width, so this caps
+   it narrower, tightens row padding, and shades the header row for
+   contrast. Scoped to this wrapper rather than table.specs itself, since
+   that class is shared with customize.html's (already-narrow) stand
+   summary table. */
+.specs-compact {
+  max-width: 560px;
+}
+.specs-compact table.specs th,
+.specs-compact table.specs td {
+  padding: 6px 12px;
+  font-size: 0.9rem;
+}
+.specs-compact table.specs th {
+  width: 130px;
+}
+.specs-compact table.specs tr:first-child th {
+  background: var(--forest-dark);
+  color: var(--cream);
+}
 .note {
   font-size: 0.9rem;
   color: var(--ink-soft);
   font-style: italic;
 }
 /* Sub-section heading within a details block (e.g. inside Advanced
-   Settings) — same bold-caps treatment as the details' own <summary>,
+   Settings), same bold-caps treatment as the details' own <summary>,
    one notch smaller so the hierarchy (Advanced Settings > sub-section)
    still reads clearly. */
 .section-label {
@@ -644,7 +679,7 @@ table.specs th {
 }
 
 /* Same chain-link visual language as .link-toggle, but sized for a text
-   label instead of an icon — used to switch Stand Dimensions between a
+   label instead of an icon, used to switch Stand Dimensions between a
    single Area-driven square and independently-set Width/Length. */
 .mode-toggle {
   display: inline-flex;
@@ -789,11 +824,11 @@ table.specs th {
   list-style: none;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 16px;
 }
 .guide-section summary::-webkit-details-marker { display: none; }
-.guide-section summary::after {
+.guide-section summary::before {
   content: "+";
   flex: none;
   font-size: 1.5rem;
@@ -802,7 +837,7 @@ table.specs th {
   transition: transform 0.15s ease;
 }
 .guide-section[open] summary { border-bottom: 1px solid #e3ddc9; }
-.guide-section[open] summary::after { transform: rotate(45deg); }
+.guide-section[open] summary::before { transform: rotate(45deg); }
 .guide-section__body {
   padding: 20px 24px 24px;
 }
@@ -867,6 +902,31 @@ table.specs th {
   max-width: 520px;
   margin-top: 32px;
 }
+/* Download gate form: tighter field spacing than the shared .form-field
+   default, scoped to this form's id so contact.html's and customize.html's
+   forms (which use the same .form-field class) are unaffected. */
+#download-gate-form .form-field {
+  margin-bottom: 14px;
+}
+#download-gate-form .form-field input,
+#download-gate-form .form-field select {
+  padding: 8px 12px;
+}
+.form-status {
+  max-width: 520px;
+  margin-top: 16px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+}
+.form-status--success {
+  background: rgba(90, 111, 61, 0.12);
+  color: var(--forest-dark);
+}
+.form-status--error {
+  background: rgba(181, 68, 59, 0.12);
+  color: #8a352c;
+}
 #stand-generator-form {
   background: var(--white);
   border: 1px solid #e3ddc9;
@@ -908,7 +968,7 @@ table.specs th {
   flex: 1;
   accent-color: var(--accent-cyan);
 }
-/* Fully draggable, just visually inert — a "coming soon" slider whose
+/* Fully draggable, just visually inert: a "coming soon" slider whose
    value gets reset to 0 in JS regardless of where it's dragged. */
 .slider-field input[type="range"].is-inert {
   accent-color: var(--ink-soft);
@@ -920,7 +980,7 @@ table.specs th {
 /* Min/mid/max labels directly under a slider, each with a small tick dash
    above it. Native <input type=range> widgets are drawn by the OS/browser
    as a single opaque unit, so anything positioned over or under the track
-   itself gets painted over regardless of z-index — putting the ticks here,
+   itself gets painted over regardless of z-index. Putting the ticks here,
    below the track and attached to the numbers, sidesteps that entirely.
    Right-margin matches the number input's width + the slider-field gap, so
    the row lines up under the range track rather than spanning the number
@@ -1228,7 +1288,7 @@ table.specs th {
 }
 .credit-logo--nrcs {
   /* NRCS lockup is a ~10.5:1 wide wordmark, not a square-ish mark like the
-     others — the shared height/max-width would clip it down to ~17px tall
+     others, so the shared height/max-width would clip it down to ~17px tall
      via object-fit: contain, so it gets its own sizing to render proportionally. */
   height: 34px;
   max-width: 360px;
@@ -1258,24 +1318,3 @@ table.specs th {
 /* ==========================================================================
    Under-construction banner
    ========================================================================== */
-.construction-banner {
-  background: repeating-linear-gradient(
-    45deg,
-    #f5c518, #f5c518 20px,
-    #1a1a1a 20px, #1a1a1a 40px
-  );
-  padding: 7px 0;
-  text-align: center;
-}
-.construction-banner__label {
-  display: inline-block;
-  background: #1a1a1a;
-  color: #f5c518;
-  font-family: var(--font-display);
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  font-size: 0.78rem;
-  padding: 4px 18px;
-  border-radius: 999px;
-}

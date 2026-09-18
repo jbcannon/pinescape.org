@@ -41,8 +41,8 @@
 #                   Scattered in clumps of 1-20 with ~1-2m spacing between
 #                   seedlings, with clumps seeded preferentially into
 #                   low-basal-area cells of a coarse 20m grid laid over
-#                   the plot — lower local BA means less shade, so more
-#                   weight — rather than spread evenly across it.
+#                   the plot: lower local BA means less shade, so more
+#                   weight, rather than spread evenly across it.
 #   seed          - Optional integer for reproducibible output
 #   output_file   - Optional output path; auto-named CustomMap_YYYYMMDD*.csv
 #
@@ -106,7 +106,7 @@
 # symmetrically apart from the target QMD, each still drawn with the same
 # SD. At bimodal<=0 both cohorts collapse back to a single .draw_dbh() call.
 # Cohort assignment is shuffled (not tied to generation order) so the two
-# size classes end up scattered across the plot rather than clustered —
+# size classes end up scattered across the plot rather than clustered,
 # this matters most for the grid pattern, where leaving the first half of
 # trees in cohort 1 would visibly segregate them by row.
 .draw_dbh_mixture <- function(n, qmd, sd_dbh, bimodal) {
@@ -119,7 +119,7 @@
   # approach) systematically inflates the realized QMD/Basal Area, because
   # quadratic mean is convex: separating two values while holding their
   # arithmetic center fixed always raises the quadratic mean above that
-  # center — worse the more they're separated (higher bimodal) and the
+  # center, worse the more they're separated (higher bimodal) and the
   # wider each cohort already is (higher sd_dbh).
   t        <- min(0.95, bimodal * 4 * (sd_dbh / qmd))
   qmd_low  <- qmd * sqrt(1 - t)
@@ -133,7 +133,7 @@
 # canopy openings (mirrors the web tool's Stand Generator exactly). Live
 # trees block light in proportion to their basal area, so a cell with less
 # live BA gets proportionally more weight when a clump's home cell is
-# picked — a simplified stand-in for "regeneration favors gaps" that
+# picked, a simplified stand-in for "regeneration favors gaps" that
 # avoids the cost (and the infinite-retry risk in fully-stocked stands) of
 # actually detecting gaps. Snags are excluded: a dead bole doesn't cast
 # the shade a live crown does, so it shouldn't suppress regeneration
@@ -190,7 +190,7 @@
 }
 
 # Grass-stage rows, formatted to the same CSV schema as .build_df() but
-# with placeholder Height/DBH and no defects — visual only, not measured.
+# with placeholder Height/DBH and no defects: visual only, not measured.
 .grass_stage_df <- function(X, Y) {
   n <- length(X)
   data.frame(

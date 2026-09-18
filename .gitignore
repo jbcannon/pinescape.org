@@ -8,3 +8,9 @@ Thumbs.db
 # Unreal Engine project source, staged here temporarily. Getting its own
 # GitHub repo later (see todolist.txt, Phase 2); not meant for this repo.
 /pinecraft-v1.0-source/
+
+# Compiled installer output (~475MB, over GitHub's 100MB file limit).
+# installer/pinescape.iss + EULA.txt are the actual source and stay
+# tracked; upload the compiled PinescapeSetup.exe as a Release asset
+# instead, same pattern as the build zip.
+/installer/Output/
