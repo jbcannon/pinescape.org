@@ -25,7 +25,7 @@
   var BA_FACTOR = 1 / 4.356; // m²/ha <-> ft²/acre, same convention as the other US/metric factors
 
   // Area is a plain area quantity, not a per-hectare rate like Density/BA/
-  // Grass — so it converts the opposite direction from toUS()/toMetric()
+  // Grass, so it converts the opposite direction from toUS()/toMetric()
   // below (which are calibrated for those per-ha fields, where going
   // metric->US *divides* by ACRES_PER_HA). 1 ha = ACRES_PER_HA acres, a
   // straightforward multiply to go metric->US here.
@@ -145,7 +145,7 @@
   };
   // Min/mid/max labels under the slider track, kept in sync with whatever
   // the current min/max happen to be (they move on every unit toggle).
-  // Written directly as text rather than via a <datalist> — native range
+  // Written directly as text rather than via a <datalist>: native range
   // tick marks never show numbers anyway, and rely on the browser
   // re-clamping ticks to a moved min/max, which isn't reliable everywhere.
   function setRangeScale(rangeEl, scale) {
@@ -184,7 +184,7 @@
   });
 
   // Forked Trees ("Coming Soon"): fully draggable/typeable like any other
-  // slider, but not wired into generation at all — and to make that
+  // slider, but not wired into generation at all, and to make that
   // obvious rather than silently ignored, its value snaps back to 0 right
   // after every interaction, no matter where the slider was moved to.
   var forkedRange = document.getElementById('sg-forked-range');
@@ -233,10 +233,10 @@
     dimsModeBtn.setAttribute('aria-pressed', customDims ? 'true' : 'false');
     dimsModeBtn.textContent = customDims ? 'Use Square Area' : 'Customize Length & Width';
     dimsModeBtn.title = customDims
-      ? 'Width and length are set independently — click to go back to a square sized by Area'
-      : 'Plot is a square sized by Area — click to set width and length independently';
+      ? 'Width and length are set independently. Click to go back to a square sized by Area'
+      : 'Plot is a square sized by Area. Click to set width and length independently';
     dimsModeNoteEl.textContent = customDims
-      ? 'Width and length are set independently — Area above now reflects this footprint.'
+      ? 'Width and length are set independently. Area above now reflects this footprint.'
       : 'Plot is a square sized by Area above.';
   }
 
@@ -353,7 +353,7 @@
     convertFieldValue(heightInput, M_PER_FT, us);
     // Area converts opposite the per-ha fields below (see haToDisplayArea)
     // and gets its own 2-decimal rounding rather than convertFieldValue's
-    // usual round1 — its metric range runs as low as 0.01 ha, which round1
+    // usual round1, since its metric range runs as low as 0.01 ha, which round1
     // would collapse to a bare "0".
     areaInput.value = round2(haToDisplayArea(displayAreaToHa(parseFloat(areaInput.value), !us), us));
     convertFieldValue(densityInput, ACRES_PER_HA, us);
@@ -417,10 +417,10 @@
   //   BA (m²/ha) = density (trees/ha) × QMD (cm)² × π / 40000
   // All three stay editable. Whichever one hasn't been touched most
   // recently is treated as the "unknown" and recalculated live from the
-  // other two — no explicit mode toggle needed. In steady-state use (someone
+  // other two, no explicit mode toggle needed. In steady-state use (someone
   // repeatedly nudging the same two fields) this settles into exactly the
   // same behavior an explicit toggle would give, it just never needs to be
-  // set. It's a target only — the actual generated stand lands close to it,
+  // set. It's a target only: the actual generated stand lands close to it,
   // not on it, since tree sizes are drawn randomly.
   var recency = ['density', 'qmd', 'ba']; // index 0 = touched most recently, last = least
   function touch(field) {
@@ -472,8 +472,8 @@
   // If editedField is given, this is a live user edit (slider drag or
   // typing), so an out-of-bounds derived value gets clamped to its
   // realistic limit and the field the user is actively editing gets pulled
-  // back to whatever value keeps that limit — e.g. dragging QMD up can't
-  // push the derived Basal Area past its max; the QMD slider just stops.
+  // back to whatever value keeps that limit (e.g. dragging QMD up can't
+  // push the derived Basal Area past its max, so the QMD slider just stops).
   // Without editedField (unit toggle, initial load) the derived value is
   // simply clamped on its own, no back-solving.
   function updateDerived(editedField) {
@@ -590,7 +590,7 @@
   // SD. At bimodalT=0 both cohorts collapse back to a single drawDBH call.
   // Cohort assignment is shuffled (not tied to tree generation order) so
   // the two size classes end up scattered across the plot rather than
-  // clustered — this matters most for the grid pattern, where leaving the
+  // clustered; this matters most for the grid pattern, where leaving the
   // first half of trees in cohort 1 would visibly segregate them by row.
   function drawDBHMixture(n, qmd, sdDbh, bimodalT, rng) {
     if (!(bimodalT > 0)) return drawDBH(n, qmd, sdDbh, rng);
@@ -600,7 +600,7 @@
     // obvious approach) systematically inflates the realized QMD/Basal
     // Area, because quadratic mean is convex: separating two values while
     // holding their arithmetic center fixed always raises the quadratic
-    // mean above that center — worse the more they're separated (higher
+    // mean above that center, worse the more they're separated (higher
     // bimodal) and the wider each cohort already is (higher sd_dbh), which
     // is exactly the combination that was blowing BA out.
     var t = Math.min(0.95, bimodalT * 4 * (sdDbh / qmd));
@@ -715,7 +715,7 @@
   // Coarse basal-area grid, used to bias grass-stage clump placement
   // toward canopy openings. Overstory trees block light in proportion to
   // their basal area, so a cell with less live BA gets proportionally
-  // more weight when a clump's home cell is picked — a simplified stand-in
+  // more weight when a clump's home cell is picked, a simplified stand-in
   // for "regeneration favors gaps" that avoids the cost (and the infinite-
   // retry risk in fully-stocked stands) of actually detecting gaps.
   // Snags are excluded: a dead bole doesn't cast the shade a live crown
@@ -833,7 +833,7 @@
     ctx.clearRect(0, 0, cssW, cssH);
 
     // Grass-stage seedlings drawn first, as a background layer under the
-    // measured overstory — small, distinct, and deliberately not part of
+    // measured overstory: small, distinct, and deliberately not part of
     // `trees` below, so they never register in the hover tooltip (they're
     // non-interactable in Pinescape itself).
     if (grassPositions && grassPositions.X.length) {
@@ -949,7 +949,7 @@
   }
 
   // Shared by mouse hover and touch tap, so the tooltip works on phones
-  // too — canvases have no native hover concept, and touch devices don't
+  // too: canvases have no native hover concept, and touch devices don't
   // fire mousemove/mouseleave at all, so those alone leave touch users
   // with a preview they can look at but never get details from.
   function updatePreviewTooltip(clientX, clientY) {
@@ -1019,7 +1019,7 @@
   }
 
   // ── Projected diameter distribution (theoretical preview curve) ─────────
-  // Unlike the histogram below, this isn't sampled from a generated stand —
+  // Unlike the histogram below, this isn't sampled from a generated stand:
   // it's the log-normal PDF(s) implied directly by the current QMD/SD/
   // Bimodal fields, using the exact same logNormalParams() the real draw
   // uses, so it updates live as those sliders move, before Generate is ever
@@ -1052,7 +1052,7 @@
     // Fixed 0-to-max-QMD frame (rather than auto-zooming to the current
     // curve) so the axis stays put as sliders move, making it easy to
     // compare shapes across different settings. A separated bimodal curve
-    // can run past this and get clipped at the right edge — acceptable,
+    // can run past this and get clipped at the right edge, which is acceptable,
     // since the frame staying fixed is the point.
     var xMin = 0;
     var xMax = METRIC_BOUNDS.qmd[1];
@@ -1356,7 +1356,7 @@
   // Otherwise just compute the initial derived field and tag it directly.
   if (isUS()) {
     // applyUnitsDisplay() converts the raw (metric) HTML defaults straight
-    // to US units, area field included — it doesn't rely on isUS()
+    // to US units, area field included. It doesn't rely on isUS()
     // matching what's currently on screen the way applyDimsToArea() does,
     // so it's the only one safe to call before the display and the units
     // toggle actually agree with each other.

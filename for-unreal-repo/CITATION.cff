@@ -1,0 +1,32 @@
+cff-version: 1.2.0
+message: "If you use Pinescape in your work, please cite it as below."
+title: Pinescape
+type: software
+authors:
+  - given-names: Jeffery
+    family-names: Cannon
+    affiliation: The Jones Center at Ichauway
+  - given-names: Brandon
+    family-names: Rutledge
+    affiliation: The Jones Center at Ichauway
+  - given-names: Joshua
+    family-names: Puhlick
+    affiliation: The Jones Center at Ichauway
+  - given-names: Rachel
+    family-names: McGuire
+    affiliation: The Jones Center at Ichauway
+  - given-names: Kevin
+    family-names: McIntyre
+    affiliation: The Jones Center at Ichauway
+repository-code: "https://github.com/jbcannon/pinescapevr"
+url: "https://pinescape.org"
+license: MIT
+version: "1.0"
+date-released: "2026-09-17"
+keywords:
+  - forestry
+  - ecological forestry
+  - virtual reality
+  - Unreal Engine
+  - longleaf pine
+  - forest simulation

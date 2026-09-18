@@ -20,31 +20,48 @@ document.addEventListener('click', function (e) {
   nav.classList.toggle('is-open');
 });
 
-// Contact form has no server behind it (static site, no backend to send
-// from). Submitting builds a mailto: link from the fields and hands off
-// to the visitor's own email client, which sends it from their address.
+// Contact form posts to the Cloudflare Worker at api.pinescape.org, which
+// relays it to pinescape@jonesctr.org via Resend.
 var contactForm = document.getElementById('contact-form');
 if (contactForm) {
+  var contactStatus = document.getElementById('contact-form-status');
+  var contactSubmitBtn = contactForm.querySelector('button[type="submit"]');
+
+  function showContactStatus(message, isError) {
+    contactStatus.textContent = message;
+    contactStatus.hidden = false;
+    contactStatus.classList.toggle('form-status--error', !!isError);
+    contactStatus.classList.toggle('form-status--success', !isError);
+  }
+
   contactForm.addEventListener('submit', function (e) {
     e.preventDefault();
-    var name = contactForm.name.value.trim();
-    var email = contactForm.email.value.trim();
-    var affiliation = contactForm.affiliation.value.trim();
-    var reason = contactForm.reason.value;
-    var message = contactForm.message.value.trim();
+    var payload = {
+      name: contactForm.name.value.trim(),
+      email: contactForm.email.value.trim(),
+      affiliation: contactForm.affiliation.value.trim(),
+      reason: contactForm.reason.value,
+      message: contactForm.message.value.trim()
+    };
 
-    var subject = 'Pinescape Contact: ' + reason;
-    var body = [
-      'Name: ' + (name || '(not provided)'),
-      'Email: ' + email,
-      'Affiliation: ' + (affiliation || '(not provided)'),
-      '',
-      message
-    ].join('\n');
+    contactSubmitBtn.disabled = true;
+    contactStatus.hidden = true;
 
-    window.location.href = 'mailto:pinescape@jonesctr.org'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
+    fetch('https://api.pinescape.org/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    })
+      .then(function (res) {
+        if (!res.ok) throw new Error('request failed');
+        contactForm.reset();
+        contactSubmitBtn.disabled = false;
+        showContactStatus('Thanks! Your message has been sent.', false);
+      })
+      .catch(function () {
+        contactSubmitBtn.disabled = false;
+        showContactStatus('Something went wrong sending your message. Please try again, or email us directly at pinescape@jonesctr.org.', true);
+      });
   });
 }
 
