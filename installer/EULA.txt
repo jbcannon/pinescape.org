@@ -1,0 +1,17 @@
+PINESCAPE™ - BEFORE YOU INSTALL
+
+Pinescape is free, open-source research software from the Landscape
+Ecology Lab at The Jones Center at Ichauway, provided as-is with no
+warranty of any kind, express or implied, including but not limited to
+fitness for a particular purpose. Use it at your own risk.
+
+Pinescape is built on Unreal Engine, which remains subject to Epic Games'
+own Unreal Engine End User License Agreement.
+
+The Pinescape source code is available under the MIT License. You're
+welcome to use, adapt, and redistribute it. If you publish work that uses
+or builds on Pinescape, please cite/credit the project (see CITATION.cff
+in the source repository). We'd also love to hear from you if you're
+modifying or extending it, reach out via https://pinescape.org/contact.html.
+
+Click I Agree to continue installing.
