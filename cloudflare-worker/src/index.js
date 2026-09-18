@@ -156,7 +156,7 @@ async function handleDownload(request, env) {
 
   return new Response(object.body, {
     headers: {
-      'Content-Type': 'application/zip',
+      'Content-Type': 'application/octet-stream',
       'Content-Disposition': 'attachment; filename="' + env.DOWNLOAD_ASSET_KEY + '"'
     }
   });
