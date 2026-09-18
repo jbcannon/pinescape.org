@@ -23,6 +23,11 @@ AppVersion={#MyAppVersion}
 DefaultDirName={autopf}\{#MyAppName}
 DefaultGroupName={#MyAppName}
 OutputBaseFilename=PinescapeSetup
+; Without this, PinescapeSetup.exe just shows Inno Setup's generic icon.
+; Forestry.exe itself still carries Unreal's default app icon (that's baked
+; in at packaging time inside the Unreal project, not something this script
+; can override) - this only fixes the installer and the shortcuts it creates.
+SetupIconFile=pinescape.ico
 Compression=lzma2
 SolidCompression=yes
 ; No admin rights required: installs to the user's own folder by default,
@@ -42,6 +47,9 @@ LicenseFile=EULA.txt
 ; install shouldn't ship with whatever test data happens to be sitting in
 ; the source build folder.
 Source: "{#SourceDir}\*"; DestDir: "{app}"; Excludes: "Forestry\SavedData\Download\*,Forestry\SavedData\Local\*"; Flags: ignoreversion recursesubdirs createallsubdirs
+; Copied alongside the build so the shortcuts below have an icon file to
+; point at after install (Forestry.exe's own embedded icon is Unreal's default).
+Source: "pinescape.ico"; DestDir: "{app}"; Flags: ignoreversion
 
 [Dirs]
 ; Created explicitly since the exclusions above mean no files would
@@ -50,9 +58,9 @@ Name: "{app}\Forestry\SavedData\Download"
 Name: "{app}\Forestry\SavedData\Local"
 
 [Icons]
-Name: "{group}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"
-Name: "{autodesktop}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: desktopicon
-Name: "{group}\Uninstall {#MyAppDisplayName}"; Filename: "{uninstallexe}"
+Name: "{group}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\pinescape.ico"
+Name: "{autodesktop}\{#MyAppDisplayName}"; Filename: "{app}\{#MyAppExeName}"; IconFilename: "{app}\pinescape.ico"; Tasks: desktopicon
+Name: "{group}\Uninstall {#MyAppDisplayName}"; Filename: "{uninstallexe}"; IconFilename: "{app}\pinescape.ico"
 
 [Tasks]
 Name: "desktopicon"; Description: "Create a desktop shortcut"; GroupDescription: "Additional shortcuts:"
