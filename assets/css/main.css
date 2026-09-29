@@ -907,6 +907,12 @@ table.specs th {
   max-width: 520px;
   margin-top: 32px;
 }
+/* Contact page only: centers the intro text and form as one column instead
+   of them sitting flush against the left edge of a much wider page. */
+.contact-column {
+  max-width: 620px;
+  margin: 0 auto;
+}
 /* Download gate form: tighter field spacing than the shared .form-field
    default, scoped to this form's id so contact.html's and customize.html's
    forms (which use the same .form-field class) are unaffected. */
