@@ -20,33 +20,7 @@ document.addEventListener('click', function (e) {
   nav.classList.toggle('is-open');
 });
 
-// Contact form has no server behind it (static site, no backend to send
-// from). Submitting builds a mailto: link from the fields and hands off
-// to the visitor's own email client, which sends it from their address.
-var contactForm = document.getElementById('contact-form');
-if (contactForm) {
-  contactForm.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var name = contactForm.name.value.trim();
-    var email = contactForm.email.value.trim();
-    var affiliation = contactForm.affiliation.value.trim();
-    var reason = contactForm.reason.value;
-    var message = contactForm.message.value.trim();
-
-    var subject = 'Pinescape Contact: ' + reason;
-    var body = [
-      'Name: ' + (name || '(not provided)'),
-      'Email: ' + email,
-      'Affiliation: ' + (affiliation || '(not provided)'),
-      '',
-      message
-    ].join('\n');
-
-    window.location.href = 'mailto:contact@pinescape.org'
-      + '?subject=' + encodeURIComponent(subject)
-      + '&body=' + encodeURIComponent(body);
-  });
-}
+// Contact form: see assets/js/contact-form.js (posts to api.pinescape.org).
 
 // .video-click-overlay sits over the video (see main.css, it stops short
 // of the native control bar strip), so a click anywhere on it toggles

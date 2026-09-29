@@ -39,15 +39,15 @@
   <form id="contact-form" class="contact-form">
     <div class="form-field">
       <label for="cf-name">Name</label>
-      <input type="text" id="cf-name" name="name">
+      <input type="text" id="cf-name" name="name" maxlength="100" autocomplete="name">
     </div>
     <div class="form-field">
       <label for="cf-email">Email *</label>
-      <input type="email" id="cf-email" name="email" required>
+      <input type="email" id="cf-email" name="email" maxlength="254" autocomplete="email" required>
     </div>
     <div class="form-field">
       <label for="cf-affiliation">Affiliation</label>
-      <input type="text" id="cf-affiliation" name="affiliation">
+      <input type="text" id="cf-affiliation" name="affiliation" maxlength="200" autocomplete="organization">
     </div>
     <div class="form-field">
       <label for="cf-reason">Topic *</label>
@@ -61,15 +61,25 @@
     </div>
     <div class="form-field">
       <label for="cf-message">Message *</label>
-      <textarea id="cf-message" name="message" rows="6" required></textarea>
+      <textarea id="cf-message" name="message" rows="6" maxlength="5000" required></textarea>
     </div>
+    <!-- Honeypot: hidden from people, filled in by simple bots. -->
+    <div aria-hidden="true" style="position:absolute; left:-10000px; width:1px; height:1px; overflow:hidden;">
+      <label for="cf-website">Website</label>
+      <input type="text" id="cf-website" name="website" tabindex="-1" autocomplete="off">
+    </div>
+    <!-- Cloudflare Turnstile: same public site key as download.html. -->
+    <div class="cf-turnstile" data-sitekey="0x4AAAAAAFHU2CwMeLRk30Qr" data-size="flexible" style="margin-bottom:14px;"></div>
     <button type="submit" class="btn btn--primary">Send Message</button>
   </form>
+  <p id="contact-form-status" class="form-status" role="status" aria-live="polite" hidden></p>
 </section>
 </main>
 
 <div data-include="partials/footer.html"></div>
 
 <script src="assets/js/main.js"></script>
+<script src="assets/js/contact-form.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
