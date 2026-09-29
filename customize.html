@@ -82,23 +82,22 @@
 
     <p class="note" style="margin-bottom:12px;">Density, QMD, and Basal Area are linked: edit any two and the third recalculates automatically.</p>
 
-    <div class="grid grid--2">
-      <div class="form-field">
-        <label for="sg-ba">Basal Area (<span id="sg-ba-unit">m&sup2;/ha</span>)<span id="sg-ba-tag" class="derived-tag"></span></label>
-        <div class="slider-field">
-            <input type="range" id="sg-ba-range" min="0.1" max="57.4" step="0.1" value="10.6">
-          <input type="number" id="sg-ba" name="ba" value="10.6" min="0.1" step="any" required>
-        </div>
-        <div class="slider-scale"><span id="sg-ba-scale-min"></span><span id="sg-ba-scale-mid"></span><span id="sg-ba-scale-max"></span></div>
+    <div class="form-field">
+      <label for="sg-ba">Basal Area (<span id="sg-ba-unit">m&sup2;/ha</span>)<span id="sg-ba-tag" class="derived-tag"></span></label>
+      <div class="slider-field">
+          <input type="range" id="sg-ba-range" min="0.1" max="57.4" step="0.1" value="10.6">
+        <input type="number" id="sg-ba" name="ba" value="10.6" min="0.1" step="any" required>
       </div>
-      <div class="form-field">
-        <label for="sg-density">Density (trees / <span id="sg-density-unit">ha</span>)<span id="sg-density-tag" class="derived-tag"></span></label>
-        <div class="slider-field">
-            <input type="range" id="sg-density-range" min="10" max="1980" step="5" value="150">
-          <input type="number" id="sg-density" name="density" value="150" min="1" step="any" required>
-        </div>
-        <div class="slider-scale"><span id="sg-density-scale-min"></span><span id="sg-density-scale-mid"></span><span id="sg-density-scale-max"></span></div>
+      <div class="slider-scale"><span id="sg-ba-scale-min"></span><span id="sg-ba-scale-mid"></span><span id="sg-ba-scale-max"></span></div>
+    </div>
+
+    <div class="form-field">
+      <label for="sg-density">Density (trees / <span id="sg-density-unit">ha</span>)<span id="sg-density-tag" class="derived-tag"></span></label>
+      <div class="slider-field">
+          <input type="range" id="sg-density-range" min="10" max="1980" step="5" value="150">
+        <input type="number" id="sg-density" name="density" value="150" min="1" step="any" required>
       </div>
+      <div class="slider-scale"><span id="sg-density-scale-min"></span><span id="sg-density-scale-mid"></span><span id="sg-density-scale-max"></span></div>
     </div>
 
     <div class="form-field">
