@@ -42,7 +42,7 @@ if (contactForm) {
       message
     ].join('\n');
 
-    window.location.href = 'mailto:pinescape@jonesctr.org'
+    window.location.href = 'mailto:contact@pinescape.org'
       + '?subject=' + encodeURIComponent(subject)
       + '&body=' + encodeURIComponent(body);
   });
