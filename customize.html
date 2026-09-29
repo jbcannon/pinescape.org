@@ -35,8 +35,9 @@
     <p>Generate a simulated longleaf pine stand and download it as a CSV ready to load into Pinescape:</p>
   </div>
 
+  <form id="stand-generator-form">
   <div class="grid grid--stand-generator">
-  <form id="stand-generator-form" class="contact-form">
+  <div class="stand-generator-fields">
     <div class="form-field">
       <div class="toggle-group">
         <input type="radio" id="sg-units-us" name="sg-units" value="us" checked>
@@ -119,118 +120,6 @@
       <p class="note" style="margin-top:6px;">Non-interactive, does not count toward stand density.</p>
     </div>
 
-    <details class="form-field">
-      <summary style="cursor:pointer; font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.04em; color:var(--forest-dark);">Advanced Settings</summary>
-
-      <p class="section-label" style="margin-top:20px;">Stand Dimensions</p>
-      <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
-        <p class="note" id="sg-dims-mode-note" style="margin:0;"></p>
-        <button type="button" id="sg-dims-mode-btn" class="mode-toggle" aria-pressed="false"></button>
-      </div>
-      <div class="grid grid--2">
-        <div class="form-field">
-          <label for="sg-width">Width (<span id="sg-width-unit">m</span>)</label>
-          <div class="slider-field">
-              <input type="range" id="sg-width-range" min="10" max="304.8" step="1" value="243.84" disabled>
-            <input type="number" id="sg-width" name="width" value="243.84" min="1" step="any" required disabled>
-          </div>
-          <div class="slider-scale"><span id="sg-width-scale-min"></span><span id="sg-width-scale-mid"></span><span id="sg-width-scale-max"></span></div>
-        </div>
-        <div class="form-field">
-          <label for="sg-height">Length (<span id="sg-height-unit">m</span>)</label>
-          <div class="slider-field">
-              <input type="range" id="sg-height-range" min="10" max="304.8" step="1" value="243.84" disabled>
-            <input type="number" id="sg-height" name="height" value="243.84" min="1" step="any" required disabled>
-          </div>
-          <div class="slider-scale"><span id="sg-height-scale-min"></span><span id="sg-height-scale-mid"></span><span id="sg-height-scale-max"></span></div>
-        </div>
-      </div>
-
-      <div class="form-field">
-        <label for="sg-sd">DBH Standard Deviation (<span id="sg-sd-unit">cm</span>)</label>
-        <div class="slider-field">
-          <input type="range" id="sg-sd-range" min="1" max="30" step="0.5" value="6">
-          <input type="number" id="sg-sd" name="sd" value="6" min="0" step="any">
-        </div>
-        <div class="slider-scale"><span id="sg-sd-scale-min"></span><span id="sg-sd-scale-mid"></span><span id="sg-sd-scale-max"></span></div>
-      </div>
-
-      <div class="form-field">
-        <label for="sg-bimodal-range">Distribution Shape</label>
-        <input type="range" id="sg-bimodal-range" min="0" max="1" step="0.02" value="0" style="width:100%;">
-        <div class="slider-scale" style="margin-right:0;"><span>Unimodal</span><span>Bimodal</span></div>
-      </div>
-
-      <div class="stand-histogram">
-        <h4>Projected Diameter Distribution</h4>
-        <canvas id="sg-distribution-canvas"></canvas>
-        <div class="slider-scale" style="margin-right:0; margin-top:6px;">
-          <span id="sg-distribution-scale-min"></span>
-          <span id="sg-distribution-scale-mid"></span>
-          <span id="sg-distribution-scale-max"></span>
-        </div>
-      </div>
-
-      <p class="section-label" style="margin-top:20px;">Tree Defect Specification</p>
-      <div class="grid grid--2" style="margin-top:8px;">
-        <div class="form-field">
-          <label for="sg-snag">Snag (dead)</label>
-          <div class="slider-field">
-              <input type="range" id="sg-snag-range" min="0" max="30" step="0.1" value="4">
-            <input type="number" id="sg-snag" name="snag" value="4" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-        <div class="form-field">
-          <label for="sg-lopsided">Asymmetric Crown</label>
-          <div class="slider-field">
-              <input type="range" id="sg-lopsided-range" min="0" max="30" step="0.1" value="3.2">
-            <input type="number" id="sg-lopsided" name="lopsided" value="3.2" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-        <div class="form-field">
-          <label for="sg-firescar">Fire Scar</label>
-          <div class="slider-field">
-              <input type="range" id="sg-firescar-range" min="0" max="30" step="0.1" value="1.8">
-            <input type="number" id="sg-firescar" name="firescar" value="1.8" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-        <div class="form-field">
-          <label for="sg-canker">Canker</label>
-          <div class="slider-field">
-              <input type="range" id="sg-canker-range" min="0" max="30" step="0.1" value="1.2">
-            <input type="number" id="sg-canker" name="canker" value="1.2" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-        <div class="form-field">
-          <label for="sg-chlorosis">Chlorosis</label>
-          <div class="slider-field">
-              <input type="range" id="sg-chlorosis-range" min="0" max="30" step="0.1" value="0.2">
-            <input type="number" id="sg-chlorosis" name="chlorosis" value="0.2" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-        <div class="form-field is-derived">
-          <label for="sg-forked">Forked Trees <span class="badge">Coming Soon</span></label>
-          <div class="slider-field">
-              <input type="range" id="sg-forked-range" class="is-inert" min="0" max="30" step="0.1" value="0">
-            <input type="number" id="sg-forked" name="forked" value="0" min="0" max="30" step="any">
-          </div>
-          <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
-        </div>
-      </div>
-
-      <p class="section-label" style="margin-top:20px;">Random Seed</p>
-      <div class="form-field">
-        <label for="sg-seed" class="sr-only">Random Seed</label>
-        <input type="number" id="sg-seed" name="seed" value="" step="1" placeholder="(random each time)">
-        <p class="note" style="margin-top:6px;">Blank by default, so every stand is different. Enter a number to reproduce the same stand again later.</p>
-      </div>
-    </details>
-
     <div class="hero__actions" style="margin-top:8px;">
       <button type="submit" class="btn btn--primary">Generate</button>
       <button type="button" id="sg-download-btn" class="btn btn--cyan" disabled>Download CSV</button>
@@ -249,7 +138,7 @@
         guide for the full walkthrough.
       </p>
     </div>
-  </form>
+  </div>
 
   <div id="sg-results" class="stand-results">
     <table class="specs">
@@ -281,6 +170,120 @@
     </div>
   </div>
   </div>
+
+  <details class="stand-generator-advanced">
+    <summary style="cursor:pointer; font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.8rem; letter-spacing:0.04em; color:var(--forest-dark);">Advanced Settings</summary>
+
+    <p class="section-label" style="margin-top:20px;">Stand Dimensions</p>
+    <div style="display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px;">
+      <p class="note" id="sg-dims-mode-note" style="margin:0;"></p>
+      <button type="button" id="sg-dims-mode-btn" class="mode-toggle" aria-pressed="false"></button>
+    </div>
+    <div class="grid grid--2">
+      <div class="form-field">
+        <label for="sg-width">Width (<span id="sg-width-unit">m</span>)</label>
+        <div class="slider-field">
+            <input type="range" id="sg-width-range" min="10" max="304.8" step="1" value="243.84" disabled>
+          <input type="number" id="sg-width" name="width" value="243.84" min="1" step="any" required disabled>
+        </div>
+        <div class="slider-scale"><span id="sg-width-scale-min"></span><span id="sg-width-scale-mid"></span><span id="sg-width-scale-max"></span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-height">Length (<span id="sg-height-unit">m</span>)</label>
+        <div class="slider-field">
+            <input type="range" id="sg-height-range" min="10" max="304.8" step="1" value="243.84" disabled>
+          <input type="number" id="sg-height" name="height" value="243.84" min="1" step="any" required disabled>
+        </div>
+        <div class="slider-scale"><span id="sg-height-scale-min"></span><span id="sg-height-scale-mid"></span><span id="sg-height-scale-max"></span></div>
+      </div>
+    </div>
+
+    <div class="grid grid--2">
+      <div class="form-field">
+        <label for="sg-sd">DBH Standard Deviation (<span id="sg-sd-unit">cm</span>)</label>
+        <div class="slider-field">
+          <input type="range" id="sg-sd-range" min="1" max="30" step="0.5" value="6">
+          <input type="number" id="sg-sd" name="sd" value="6" min="0" step="any">
+        </div>
+        <div class="slider-scale"><span id="sg-sd-scale-min"></span><span id="sg-sd-scale-mid"></span><span id="sg-sd-scale-max"></span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-bimodal-range">Distribution Shape</label>
+        <input type="range" id="sg-bimodal-range" min="0" max="1" step="0.02" value="0" style="width:100%;">
+        <div class="slider-scale" style="margin-right:0;"><span>Unimodal</span><span>Bimodal</span></div>
+      </div>
+    </div>
+
+    <div class="stand-histogram">
+      <h4>Projected Diameter Distribution</h4>
+      <canvas id="sg-distribution-canvas"></canvas>
+      <div class="slider-scale" style="margin-right:0; margin-top:6px;">
+        <span id="sg-distribution-scale-min"></span>
+        <span id="sg-distribution-scale-mid"></span>
+        <span id="sg-distribution-scale-max"></span>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:20px;">Tree Defect Specification</p>
+    <div class="grid grid--3" style="margin-top:8px;">
+      <div class="form-field">
+        <label for="sg-snag">Snag (dead)</label>
+        <div class="slider-field">
+            <input type="range" id="sg-snag-range" min="0" max="30" step="0.1" value="4">
+          <input type="number" id="sg-snag" name="snag" value="4" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-lopsided">Asymmetric Crown</label>
+        <div class="slider-field">
+            <input type="range" id="sg-lopsided-range" min="0" max="30" step="0.1" value="3.2">
+          <input type="number" id="sg-lopsided" name="lopsided" value="3.2" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-firescar">Fire Scar</label>
+        <div class="slider-field">
+            <input type="range" id="sg-firescar-range" min="0" max="30" step="0.1" value="1.8">
+          <input type="number" id="sg-firescar" name="firescar" value="1.8" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-canker">Canker</label>
+        <div class="slider-field">
+            <input type="range" id="sg-canker-range" min="0" max="30" step="0.1" value="1.2">
+          <input type="number" id="sg-canker" name="canker" value="1.2" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+      <div class="form-field">
+        <label for="sg-chlorosis">Chlorosis</label>
+        <div class="slider-field">
+            <input type="range" id="sg-chlorosis-range" min="0" max="30" step="0.1" value="0.2">
+          <input type="number" id="sg-chlorosis" name="chlorosis" value="0.2" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+      <div class="form-field is-derived">
+        <label for="sg-forked">Forked Trees <span class="badge">Coming Soon</span></label>
+        <div class="slider-field">
+            <input type="range" id="sg-forked-range" class="is-inert" min="0" max="30" step="0.1" value="0">
+          <input type="number" id="sg-forked" name="forked" value="0" min="0" max="30" step="any">
+        </div>
+        <div class="slider-scale"><span>0</span><span>15</span><span>30</span></div>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:20px;">Random Seed</p>
+    <div class="form-field">
+      <label for="sg-seed" class="sr-only">Random Seed</label>
+      <input type="number" id="sg-seed" name="seed" value="" step="1" placeholder="(random each time)">
+      <p class="note" style="margin-top:6px;">Blank by default, so every stand is different. Enter a number to reproduce the same stand again later.</p>
+    </div>
+  </details>
+  </form>
 
   <div class="callout">
     <h3><img class="heading-icon" src="assets/img/logos/pine-mark.png" alt="">Prefer to Code Your Own Stands?</h3>

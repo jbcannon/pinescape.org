@@ -938,12 +938,24 @@ table.specs th {
   background: rgba(181, 68, 59, 0.12);
   color: #8a352c;
 }
-#stand-generator-form {
-  margin-top: 0;
+.stand-generator-fields {
   background: var(--white);
   border: 1px solid #e3ddc9;
   border-radius: var(--radius);
   padding: 24px;
+}
+/* Advanced Settings now sits below the two-column layout, full width,
+   instead of stretching the left column when unrolled (which used to
+   force the results panel to stretch into a huge mostly-empty box). */
+.stand-generator-advanced {
+  margin-top: 20px;
+  background: var(--white);
+  border: 1px solid #e3ddc9;
+  border-radius: var(--radius);
+  padding: 24px;
+}
+.stand-generator-advanced .grid--3 {
+  gap: 16px 20px;
 }
 .form-field {
   margin-bottom: 20px;
