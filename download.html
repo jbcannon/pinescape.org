@@ -35,15 +35,15 @@
       <form id="download-gate-form" class="contact-form" style="margin-top:0;">
         <div class="form-field">
           <label for="dg-name">Name *</label>
-          <input type="text" id="dg-name" name="name" required>
+          <input type="text" id="dg-name" name="name" maxlength="100" autocomplete="name" required>
         </div>
         <div class="form-field">
           <label for="dg-email">Email *</label>
-          <input type="email" id="dg-email" name="email" required>
+          <input type="email" id="dg-email" name="email" maxlength="254" autocomplete="email" required>
         </div>
         <div class="form-field">
           <label for="dg-affiliation">Affiliation</label>
-          <input type="text" id="dg-affiliation" name="affiliation">
+          <input type="text" id="dg-affiliation" name="affiliation" maxlength="200" autocomplete="organization">
         </div>
         <div class="form-field">
           <label for="dg-use">How will you use Pinescape? *</label>
@@ -59,17 +59,21 @@
         </div>
         <div class="form-field" id="dg-use-other-field" hidden>
           <label for="dg-use-other">Please specify *</label>
-          <input type="text" id="dg-use-other" name="useOther">
+          <input type="text" id="dg-use-other" name="useOther" maxlength="150">
         </div>
-        <button type="submit" class="btn btn--primary">Request Download Link</button>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAFHU2CwMeLRk30Qr" data-size="flexible" style="margin-bottom:14px;"></div>
+        <button type="submit" class="btn btn--primary">Email Me a Download Link</button>
       </form>
-      <p id="download-gate-status" class="form-status" hidden></p>
+      <p id="download-gate-status" class="form-status" role="status" aria-live="polite" hidden></p>
       <p class="note" style="margin-top:12px; display:flex; align-items:center; gap:6px;">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false" style="flex:none;"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.851"/></svg>
         Requires Windows 10/11 (64-bit)
       </p>
       <p class="note" style="margin-top:12px;">
-        We'll email a one-time download link (valid for 3 days). Downloads and runs an installer (PinescapeSetup.exe).
+        We'll email you a link that's valid for 3 days, with both the installer (Start Menu entry, desktop shortcut, uninstaller) and a portable .zip.
+      </p>
+      <p class="note" style="margin-top:12px;">
+        Your details are used only to send the link and to help us understand who uses Pinescape. We don't share them or add you to a mailing list.
       </p>
     </div>
     <div class="callout">
@@ -108,5 +112,6 @@
 
 <script src="assets/js/main.js"></script>
 <script src="assets/js/download-gate.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
