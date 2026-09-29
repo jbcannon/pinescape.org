@@ -491,8 +491,14 @@ section.section--photo-bg {
 .grid--2 { grid-template-columns: repeat(2, 1fr); }
 .grid--3 { grid-template-columns: repeat(3, 1fr); }
 @media (max-width: 760px) {
-  .grid--2, .grid--3 { grid-template-columns: 1fr; }
+  .grid--2, .grid--3, .grid--stand-generator { grid-template-columns: 1fr; }
 }
+
+/* Stand Generator layout: keeps the form (and its sliders) at a fixed,
+   comfortable width as the page gets wider, handing the extra room to the
+   results column (preview map, histogram) instead of stretching every
+   slider bar edge to edge. */
+.grid--stand-generator { grid-template-columns: minmax(320px, 660px) 1fr; }
 
 .card {
   background: var(--white);
@@ -617,12 +623,10 @@ table.specs th {
 }
 /* Download page's System Requirements table: values here (TBD, N/A, short
    phrases) look sparse stretched across the full site width, so this caps
-   it narrower, tightens row padding, and shades the header row for
-   contrast. Scoped to this wrapper rather than table.specs itself, since
-   that class is shared with customize.html's (already-narrow) stand
-   summary table. */
+   it narrower and tightens row padding, and shades the header row for
+   contrast. */
 .specs-compact {
-  max-width: 560px;
+  max-width: 800px;
 }
 .specs-compact table.specs th,
 .specs-compact table.specs td {

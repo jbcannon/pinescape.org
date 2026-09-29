@@ -35,7 +35,8 @@
     <p>Generate a simulated longleaf pine stand and download it as a CSV ready to load into Pinescape:</p>
   </div>
 
-  <form id="stand-generator-form" class="contact-form" style="max-width: 640px;">
+  <div class="grid grid--stand-generator">
+  <form id="stand-generator-form" class="contact-form">
     <div class="form-field">
       <div class="toggle-group">
         <input type="radio" id="sg-units-us" name="sg-units" value="us" checked>
@@ -250,7 +251,7 @@
     </div>
   </form>
 
-  <div id="sg-results" class="stand-results" style="max-width:640px;">
+  <div id="sg-results" class="stand-results">
     <table class="specs">
       <tr><th>Size</th><td id="sg-summary-size"></td></tr>
       <tr><th>Number of Trees</th><td id="sg-summary-count"></td></tr>
@@ -278,6 +279,7 @@
       <canvas id="sg-histogram-canvas"></canvas>
       <div id="sg-histogram-tooltip" class="stand-preview-tooltip stand-preview-tooltip--dark"></div>
     </div>
+  </div>
   </div>
 
   <div class="callout" style="max-width:640px;">
