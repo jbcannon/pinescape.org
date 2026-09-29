@@ -32,13 +32,48 @@
 <section class="wrap section" id="source-code" style="padding-top:40px; padding-bottom:40px;">
   <div class="grid grid--2" style="max-width:600px;">
     <div>
-      <a class="btn btn--primary" href="https://github.com/jbcannon/pinescape.org/releases/latest/download/PinescapeSetup.exe" onclick="gtag('event', 'download_windows_installer', { app_version: 'latest' });">Download for Windows (Installer)</a>
+      <form id="download-gate-form" class="contact-form" style="margin-top:0;">
+        <div class="form-field">
+          <label for="dg-name">Name *</label>
+          <input type="text" id="dg-name" name="name" maxlength="100" autocomplete="name" required>
+        </div>
+        <div class="form-field">
+          <label for="dg-email">Email *</label>
+          <input type="email" id="dg-email" name="email" maxlength="254" autocomplete="email" required>
+        </div>
+        <div class="form-field">
+          <label for="dg-affiliation">Affiliation</label>
+          <input type="text" id="dg-affiliation" name="affiliation" maxlength="200" autocomplete="organization">
+        </div>
+        <div class="form-field">
+          <label for="dg-use">How will you use Pinescape? *</label>
+          <select id="dg-use" name="use" required>
+            <option value="" selected disabled>Choose one&hellip;</option>
+            <option value="Personal / Hobbyist">Personal / Hobbyist</option>
+            <option value="K-12 Education">K-12 Education</option>
+            <option value="Undergraduate Education">Undergraduate Education</option>
+            <option value="Graduate Education">Graduate Education</option>
+            <option value="Land Management / Forestry Professional">Land Management / Forestry Professional</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-field" id="dg-use-other-field" hidden>
+          <label for="dg-use-other">Please specify *</label>
+          <input type="text" id="dg-use-other" name="useOther" maxlength="150">
+        </div>
+        <div class="cf-turnstile" data-sitekey="0x4AAAAAAFHU2CwMeLRk30Qr" data-size="flexible" style="margin-bottom:14px;"></div>
+        <button type="submit" class="btn btn--primary">Email Me a Download Link</button>
+      </form>
+      <p id="download-gate-status" class="form-status" role="status" aria-live="polite" hidden></p>
       <p class="note" style="margin-top:12px; display:flex; align-items:center; gap:6px;">
         <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor" aria-hidden="true" focusable="false" style="flex:none;"><path d="M0 3.449L9.75 2.1v9.451H0m10.949-9.602L24 0v11.4H10.949M0 12.6h9.75v9.451L0 20.699M10.949 12.6H24V24l-13.051-1.851"/></svg>
         Requires Windows 10/11 (64-bit)
       </p>
       <p class="note" style="margin-top:12px;">
-        Sets up a Start Menu entry, desktop shortcut, and uninstaller. Prefer no installer? <a class="text-link" href="https://github.com/jbcannon/pinescape.org/releases/latest/download/pinescapevr-windows.zip" onclick="gtag('event', 'download_windows_zip', { app_version: 'latest' });">Download the .zip (Portable)</a>.
+        We'll email you a link that's valid for 3 days, with both the installer (Start Menu entry, desktop shortcut, uninstaller) and a portable .zip.
+      </p>
+      <p class="note" style="margin-top:12px;">
+        Your details are used only to send the link and to help us understand who uses Pinescape. We don't share them or add you to a mailing list.
       </p>
     </div>
     <div class="callout">
@@ -76,5 +111,7 @@
 <div data-include="partials/footer.html"></div>
 
 <script src="assets/js/main.js"></script>
+<script src="assets/js/download-gate.js"></script>
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </body>
 </html>
