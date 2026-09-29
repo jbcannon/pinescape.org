@@ -1178,7 +1178,7 @@ table.specs th {
    About page: partners + team
    ========================================================================== */
 .about-photo {
-  margin: 32px 0;
+  margin: 32px auto;
   max-width: 50%;
 }
 @media (max-width: 760px) {
