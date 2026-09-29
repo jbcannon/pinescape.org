@@ -621,13 +621,8 @@ table.specs th {
   font-size: 0.8rem;
   letter-spacing: 0.04em;
 }
-/* Download page's System Requirements table: values here (TBD, N/A, short
-   phrases) look sparse stretched across the full site width, so this caps
-   it narrower and tightens row padding, and shades the header row for
-   contrast. */
-.specs-compact {
-  max-width: 800px;
-}
+/* Download page's System Requirements table: tightens row padding and
+   shades the header row for contrast. */
 .specs-compact table.specs th,
 .specs-compact table.specs td {
   padding: 6px 12px;
@@ -714,7 +709,13 @@ table.specs th {
 .stand-results {
   display: none;
 }
-.stand-results.is-visible { display: block; }
+.stand-results.is-visible {
+  display: block;
+  background: var(--white);
+  border: 1px solid #e3ddc9;
+  border-radius: var(--radius);
+  padding: 24px;
+}
 .stand-preview {
   position: relative;
   margin-top: 8px;
@@ -932,6 +933,7 @@ table.specs th {
   color: #8a352c;
 }
 #stand-generator-form {
+  margin-top: 0;
   background: var(--white);
   border: 1px solid #e3ddc9;
   border-radius: var(--radius);
