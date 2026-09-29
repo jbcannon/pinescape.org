@@ -55,12 +55,17 @@
   var summaryBaEl = document.getElementById('sg-summary-ba');
   var summarySeedEl = document.getElementById('sg-summary-seed');
 
-  var downloadBtn = document.getElementById('sg-download-btn');
+  // Two Download buttons: the main one, and a duplicate down in Advanced
+  // Settings so it's reachable without scrolling back up. Both stay in
+  // sync (enabled/disabled together) and do the same thing on click.
+  var downloadBtns = Array.prototype.slice.call(document.querySelectorAll('.sg-download-btn'));
   var lastCSV = null;
   var lastFilename = null;
-  downloadBtn.addEventListener('click', function () {
-    if (!lastCSV) return;
-    downloadCSV(lastCSV, lastFilename);
+  downloadBtns.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      if (!lastCSV) return;
+      downloadCSV(lastCSV, lastFilename);
+    });
   });
 
   // If any setting changes after a preview, the last-generated CSV no
@@ -72,8 +77,8 @@
       // Toggling units only changes how numbers are displayed, not the
       // underlying settings, so it shouldn't invalidate the last preview.
       if (e.target && e.target.name === 'sg-units') return;
-      if (downloadBtn.disabled || !lastCSV) return;
-      downloadBtn.disabled = true;
+      if (downloadBtns[0].disabled || !lastCSV) return;
+      downloadBtns.forEach(function (btn) { btn.disabled = true; });
       statusEl.style.color = '';
       statusEl.textContent = 'Settings changed. Click Generate to update before downloading.';
     });
@@ -1312,7 +1317,7 @@
 
       lastCSV = csv;
       lastFilename = filename;
-      downloadBtn.disabled = false;
+      downloadBtns.forEach(function (btn) { btn.disabled = false; });
 
       drawPreview(result, widthM, heightM, grassPositions);
       drawHistogram(result, us);
